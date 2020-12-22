@@ -1,9 +1,33 @@
 .login-form{
-  margin-left: 40%;
-  padding: 50px;
+  margin-left: 60%;
+}
+
+.holder{
+}
+
+h1{font-family: "Montserrat", sans-serif}
+.w3-row-padding img {margin-bottom: 12px}
+.bgimg {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('../assets/mountains.jpg');
+  min-height: 100%;
 }
 
 .button{
   margin-top: 15px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.main{
+  margin-left: 40%;
+}
+
+.header{
+  padding: 70px;
+}
+
+.sidebar{
+  width: 40%;
 }
