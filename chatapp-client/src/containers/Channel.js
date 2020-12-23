@@ -3,7 +3,6 @@ import React from 'react';
 import UserList from './UserList';
 import MessageContainer from './MessageContainer';
 import MessageForm from '../components/MessageForm';
-import { withRouter } from "react-router";
 
 
 const CHANNEL_API = "http://localhost:3001/channels";
@@ -89,8 +88,9 @@ class Channel extends React.Component {
         <div className='chatbox' ng-controller="MessageCtrl as chatMessage">
           <UserList users={this.state.users} />
           <MessageContainer messages={this.state.messages} />
-          <MessageForm newMessage={this.newMessage}  />
         </div>
+        <MessageForm newMessage={this.newMessage}  />
+
       </div>
     )
   }

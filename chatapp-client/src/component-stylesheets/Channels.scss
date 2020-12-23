@@ -6,31 +6,6 @@ $active: rgba(23, 190, 187, 0.8);
 $busy: rgba(252, 100, 113, 0.8);
 $away: rgba(255, 253, 130, 0.8);
 
-// Triangle Mixin
-@mixin triangle($color, $size, $direction) {
-  width: 0;
-  height: 0;
-  @if $direction == "up" {
-    border-right: ($size + px) solid transparent;
-    border-left: ($size + px) solid transparent;
-    border-bottom: ($size + px) solid $color;
-  }
-  @if $direction == "down" {
-    border-right: ($size + px) solid transparent;
-    border-left: ($size + px) solid transparent;
-    border-top: ($size + px) solid $color;
-  }
-  @if $direction == "right" {
-    border-top: ($size + px) solid transparent;
-    border-bottom: ($size + px) solid transparent;
-    border-left: ($size + px) solid $color;
-  }
-  @if $direction == "left" {
-    border-top: ($size + px) solid transparent;
-    border-bottom: ($size + px) solid transparent;
-    border-right: ($size + px) solid $color;
-    }
-}
 
 * {
   margin: 0; padding: 0;
@@ -71,7 +46,6 @@ html,body {
         content: '';
         position: absolute;
         margin: -1.5em -17.06em;
-        @include triangle(rgba(255, 255, 255, 0.2), 10, left);
       }
     }
     &:nth-of-type(even) .chatbox__messages__user-message--ind-message {
@@ -79,8 +53,7 @@ html,body {
       &:after {
       content: '';
       position: absolute;
-      margin: -1.5em 1.87em;
-      @include triangle(rgba(255, 255, 255, 0.2), 10, right);
+      margin: -0.2em 1.87em;
       }
     }
   }
@@ -93,7 +66,7 @@ html,body {
     height: auto;
     width: 65%;
     border-radius: 5px;
-    margin: 2em 1em;
+    margin: 1em 1em;
     overflow: auto;
     & > p.name {
       color: #FFF;
@@ -149,21 +122,30 @@ html,body {
     color: #FFF;
     width: 200px;
   }
-  form {
-    background: #222;
-    input {
-      background: rgba(255, 255, 255, 0.03);
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      border: none;
-      width: 75%;
-      padding: 1.2em;
-      outline: none;
-      color: rgba(255, 255, 255, 0.9);
-      font-weight: 300;
-    }
+}
+
+.input-form {
+  background: #222;
+  input {
+    background: rgba(100, 100, 100, 0.4);
+    position: absolute;
+    bottom: 0;
+    left: 33.5%;
+    border: none;
+    width: 33%;
+    padding: 1.2em;
+    outline: none;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
   }
+}
+
+.chatbox__messages {
+  // background: rgba(255, 255, 255, 0.05);
+  height: inherit;
+  width: 75%;
+  position: fixed;
+  overflow-y: scroll;
 }
 
 // Placeholder Styling
