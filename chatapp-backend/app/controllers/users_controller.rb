@@ -13,9 +13,10 @@ class UsersController < ApplicationController
 
   def create
     user = User.new(user_params)
+    byebug
     if user.save
       token = encode_token(user_id: user.id)
-      render json: { user: UserSerializer.new(user).serialize, jwt: token }, status: :created
+      render json: { jwt: token }, status: :created
     else 
       render json: { error: "Failed to create account" }, status: :not_acceptable
     end
