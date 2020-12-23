@@ -3,8 +3,8 @@ Channel.destroy_all
 UserChannel.destroy_all
 Message.destroy_all
 
-u1 = User.create(first_name: "David", last_name: "Molina", email: "example@email.com", username: "dmolina")
-u2 = User.create(first_name: "Elijah", last_name: "Brooks", email: "email@example.com", username: "ebrooks")
+u1 = User.create(first_name: "David", last_name: "Molina", email: "example@email.com", username: "dmolina", password: "password1")
+u2 = User.create(first_name: "Elijah", last_name: "Brooks", email: "email@example.com", username: "ebrooks", password: "password2")
 
 ch1 = Channel.create(owner_id: u1.id, name: "channel1")
 ch2 = Channel.create(owner_id: u2.id, name: "channel2")
