@@ -7,13 +7,6 @@ import { useParams } from 'react-router-dom';
 
 const Channel = props => {
 
-  state = {
-    user: [],
-    messages: [],
-  }
-  const [users, setUsers] = useState([])
-  const {id} = useParams();
-
 
   return(
     <div className='container' ng-cloak ng-app="chatApp">
