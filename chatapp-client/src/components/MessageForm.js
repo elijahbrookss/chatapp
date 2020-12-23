@@ -3,7 +3,7 @@ import React from 'react';
 const MessageForm = (props) =>{
 
   return(
-    <form >
+    <form onSubmit={props.newMessage} >
       <input type="text" placeholder="Enter your message"/>
     </form>
   );

@@ -6,7 +6,7 @@ const Message = (props) =>{
       <div className="chatbox__messages__user-message--ind-message">
         <p className="name">{props.message.user.username}</p>
         <br/>
-        <p className="message">{props.message.message}</p>
+        <p className="message">{props.message.content}</p>
       </div>
     </div>
   );

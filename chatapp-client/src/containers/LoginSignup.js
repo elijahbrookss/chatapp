@@ -13,24 +13,25 @@ export default class LoginSignup extends Component {
   triggerChange = () =>this.setState({login:!this.state.login})
 
   login = (e, username, password) => {
-    e.preventDefault()
+    e.preventDefault();
     fetch(`http://localhost:3001/login`, {
       method: "POST",
       headers: { "Content-Type":"application/json"},
       body: JSON.stringify({
         user: {
-          username: username, 
+          username: username,
           password: password
         }
       })
     })
     .then( res => res.json() )
-    .then( data => localStorage.setItem('auth_key', data['jwt']) )
+    .then( data => {
+      localStorage.setItem('auth_key', data['jwt'])
+    })
   }
 
   signUp = (e, firstName, lastName, username, email, password) => {
     e.preventDefault()
-    debugger
     fetch(`http://localhost:3001/users`, {
       method: "POST",
       headers: { "Content-Type":"application/json" },
@@ -45,7 +46,7 @@ export default class LoginSignup extends Component {
       })
     })
     .then( res => res.json() )
-    .then( data => localStorage.setItem('auth_key', data['jwt']) )
+    .then( data => localStorage.setItem('auth_key', data['jwt']))
   }
 
   render(){
