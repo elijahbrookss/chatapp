@@ -7,7 +7,7 @@ const Login = (props) => {
     <h1> Welcome Back, Login </h1>
       <Form>
         <Form.Group>
-          <Form.Input fluid label='Username' placeholder='Username' width={2} />
+          <Form.Input fluid label='Username' placeholder='Username' />
           <Form.Input fluid label='Password' placeholder='Password' type="password" />
         </Form.Group>
       </Form>

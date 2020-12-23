@@ -1,4 +1,6 @@
-import LoginSignup from './containers/LoginSignup'
+import LoginSignup from './containers/LoginSignup';
+import Channel from './containers/Channel.js';
+
 import {
   BrowserRouter as Router,
   Route,
@@ -11,9 +13,8 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          <Route exact path="/login" component={()=>{
-            return <LoginSignup />
-          }}/>
+          <Route exact path="/login" component={LoginSignup}/>
+          <Route exact path="/channels/:id" component={Channel} />
         </Switch>
       </Router>
     </div>
