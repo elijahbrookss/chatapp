@@ -55,7 +55,7 @@ class Channel extends React.Component {
       const suffix = "'s chat"
       this.setState({
         messages: channelObj.messages,
-        users: channelObj.users,
+        users: [channelObj.channel_owner,...channelObj.users], 
         chatName: channelObj.channel_owner.username + suffix
       })
     })
