@@ -3,13 +3,7 @@ import React from 'react';
 import UserList from './UserList';
 import MessageContainer from './MessageContainer';
 import MessageForm from '../components/MessageForm';
-
-
-const CHANNEL_API = "http://localhost:3001/channels";
-const USERS_API = "http://localhost:3001/current-user"
-const MESSAGES_API = "http://localhost:3001/messages"
-const authToken = localStorage.getItem("auth_key");
-const headerKey = "Authorization";
+import ChannelAdapters from '../adapters/ChannelAdapters'
 
 class Channel extends React.Component {
 
@@ -28,13 +22,7 @@ class Channel extends React.Component {
   }
 
   fetchUser = () => {
-    fetch(USERS_API, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        [headerKey]: authToken
-      }
-    })
+    ChannelAdapters.fetchUser()
     .then(response => response.json())
     .then(user=>{
       this.user = user
@@ -42,19 +30,13 @@ class Channel extends React.Component {
   }
 
   fetchChannel = id => {
-    fetch(CHANNEL_API+`/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        [headerKey]: authToken
-      }
-    })
+    ChannelAdapters.fetchChannel(id)
     .then(resp => resp.json())
     .then(channelObj => {
       const suffix = "'s chat"
       this.setState({
         messages: channelObj.messages,
-        users: channelObj.users,
+        users: [...channelObj.users, channelObj.channel_owner],
         chatName: channelObj.channel_owner.username + suffix
       })
     })
@@ -62,22 +44,21 @@ class Channel extends React.Component {
 
   newMessage = (e) => {
     e.preventDefault();
+    const chatbox = e.nativeEvent.path[1].childNodes[1].childNodes[1];
     const messages = this.state.messages;
+    
     const message = {
       content: e.target.elements[0].value,
       user_id: this.user.id,
       channel_id: this.channelId
     }
     e.target.reset();
-    fetch(MESSAGES_API, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        [headerKey]: authToken
-      },
-      body: JSON.stringify(message)
-    }).then(response=> response.json())
-    .then(message=>this.setState({messages: [...messages, message]}))
+    ChannelAdapters.createMessage(message)
+    .then(response=> response.json())
+    .then(message=>{
+      this.setState({messages: [...messages, message]})
+      chatbox.scrollTop = chatbox.scrollHeight;
+      })
   }
 
   render() {
@@ -87,10 +68,9 @@ class Channel extends React.Component {
         <h1> {this.state.chatName} </h1>
         <div className='chatbox' ng-controller="MessageCtrl as chatMessage">
           <UserList users={this.state.users} />
-          <MessageContainer messages={this.state.messages} />
+          <MessageContainer user={this.user} messages={this.state.messages} />
         </div>
         <MessageForm newMessage={this.newMessage}  />
-
       </div>
     )
   }

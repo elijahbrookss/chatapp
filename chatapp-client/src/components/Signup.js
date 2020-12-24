@@ -1,4 +1,4 @@
-import {Form, Segment, Button} from 'semantic-ui-react'
+import {Form, Button} from 'semantic-ui-react'
 import React, { useState } from 'react'
 
 const Signup = (props) => {

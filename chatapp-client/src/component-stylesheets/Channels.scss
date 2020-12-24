@@ -58,7 +58,7 @@ html,body {
     }
   }
   &__messages__user-message {
-    width: 450px;
+    width: 600px;
   }
   &__messages__user-message--ind-message {
     background: rgba(255, 255, 255, 0.2);
@@ -145,6 +145,7 @@ html,body {
   height: inherit;
   width: 75%;
   position: fixed;
+  overflow-x: hidden;
   overflow-y: scroll;
 }
 

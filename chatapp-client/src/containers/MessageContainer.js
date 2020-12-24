@@ -5,7 +5,7 @@ const MessageContainer = (props) =>{
 
   return(
     <div className="chatbox__messages" ng-repeat="message in messages">
-        { props.messages.map(message => <Message message={message} />) }
+        { props.messages.map(message => <Message user={props.user} message={message} />) }
     </div>
   );
 }
