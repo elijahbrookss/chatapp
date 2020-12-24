@@ -14,7 +14,11 @@ class Channel extends React.Component {
     users: [],
     chatName: "Are you a hacker? 😂",
     displayContextMenu: false,
-    messageClicked: {}
+    messageClicked: {
+      content: undefined
+    },
+    messageEvent: {},
+    editMode: false
   }
 
   channelId = this.props.match.params.id;
@@ -24,7 +28,8 @@ class Channel extends React.Component {
   componentDidMount(){
     this.fetchChannel(this.channelId);
     this.fetchUser();
-    this.domClickedEvent();
+    document.onclick = this.hideContextMenu;
+
   }
 
   fetchUser = () => {
@@ -49,8 +54,21 @@ class Channel extends React.Component {
     })
   }
 
-  newMessage = (e) => {
+  formSubmit = (e, content) => {
     e.preventDefault();
+    const editMode = this.state.editMode;
+    const messageClicked = this.state.messageClicked;
+    
+    if (editMode){
+      this.setState({editMode: false})
+      messageClicked.content = content
+      this.editMessage(messageClicked);
+    }else {
+      this.createNewMessage(e);
+    }
+  }
+
+  createNewMessage = (e) => {
     const chatbox = e.nativeEvent.path[1].childNodes[1].childNodes[1];
     const messages = this.state.messages;
 
@@ -72,20 +90,36 @@ class Channel extends React.Component {
 
     ChannelAdapters.deleteMessage(message)
     .then(() => {
-      const messageId = parseInt(message.getAttribute("datasetid"));
-      const messages =  this.state.messages.filter(currentMessage=> currentMessage.id !== messageId);
+      const messages =  this.state.messages.filter(currentMessage=> currentMessage.id !== message.id);
       this.setState({messages})
     })
-
   }
 
-  changeDisplayContextMenu = (e, messageUser) => {
+  switchFormMode = (mode) => {
+    this.setState({editMode: mode});
+  }
+
+  editMessage = (message) => {
+    ChannelAdapters.editMessage(message)
+    .then(response => response.json())
+    .then(newMessage => {
+      const messages = this.state.messages
+      const updatedMessage = messages.find(currentMessage => currentMessage.id === message.id);
+      updatedMessage.content = newMessage.content;
+      this.setState({messages});
+    })
+  }
+
+  changeDisplayContextMenu = (e, message) => {
     e.preventDefault();
-    if (this.isPermitted(messageUser)){
+    if (this.isPermitted(message)){
       if (this.state.displayContextMenu) {
         this.hideContextMenu();
       }else {
-        this.setState({messageClicked: e})
+        this.setState({
+          messageClicked: message,
+          messageEvent: e
+        })
         this.displayContextMenu();
       }
     }
@@ -99,9 +133,10 @@ class Channel extends React.Component {
     this.setState({displayContextMenu: false});
   }
 
-  isPermitted = (messageUser) => {
+  isPermitted = (message) => {
     const channelOwner = this.channelOwner;
     const currentUser = this.user;
+    const messageUser = message.user;
     if (messageUser.id === currentUser.id || currentUser.id === channelOwner.id){
       return true
     }
@@ -111,15 +146,9 @@ class Channel extends React.Component {
   positionContextMenu = () => {
     const contextMenu = document.querySelector("#contextMenu");
     contextMenu.style.display = "block";
-    contextMenu.style.left = this.state.messageClicked.pageX + "px";
-    contextMenu.style.top = this.state.messageClicked.pageY + "px";
-
+    contextMenu.style.left = this.state.messageEvent.pageX + "px";
+    contextMenu.style.top = this.state.messageEvent.pageY + "px";
   }
-
-  domClickedEvent = () => {
-    document.onclick = this.hideContextMenu;
-  }
-
 
   render() {
     const displayContextMenu = this.state.displayContextMenu;
@@ -135,9 +164,14 @@ class Channel extends React.Component {
             changeDisplayContextMenu={this.changeDisplayContextMenu}
           />
         </div>
-        <MessageForm newMessage={this.newMessage}  />
+        <MessageForm
+          editMode={this.state.editMode}
+          formSubmit={this.formSubmit}
+          messageClicked={this.state.messageClicked}
+          />
       </div>
       {displayContextMenu ? <ContextMenu
+          switchFormMode={this.switchFormMode}
           deleteMessage={this.deleteMessage}
           messageClicked={this.state.messageClicked}
           positionContextMenu={this.positionContextMenu}

@@ -1,12 +1,41 @@
 import React from 'react';
 
-const MessageForm = (props) =>{
+class MessageForm extends React.Component {
+  state= {
+    value: undefined,
+    editStarted: false
+  }
 
-  return(
-    <form className="input-form" onSubmit={props.newMessage} >
-      <input type="text" placeholder="Enter your message"/>
-    </form>
-  );
+  onChange = (e) => {
+    this.setState({value: e.target.value})
+  }
+
+  componentDidUpdate(){
+    if(this.state.value !== this.props.messageClicked.content){
+      if(this.props.editMode && !this.state.editStarted){
+        this.setState({
+          value: this.props.messageClicked.content,
+          editStarted: true
+        })
+      }
+    }
+  }
+
+  formSubmit = (e) => {
+    this.props.formSubmit(e, this.state.value);
+    this.setState({
+      value: "",
+      editStarted: false
+    })
+  }
+
+  render() {
+    return(
+      <form className="input-form" onSubmit={this.formSubmit} >
+        <input onChange={this.onChange} value={this.state.value} type="text" placeholder="Enter your message"/>
+      </form>
+    );
+  }
 }
 
 export default MessageForm

@@ -5,7 +5,7 @@ class ContextMenu extends React.Component {
     this.props.positionContextMenu();
   }
 
-  message = this.props.messageClicked.target.parentElement
+  message = this.props.messageClicked
 
   handleMessage = (e) => {
     const element = e.target;
@@ -14,7 +14,7 @@ class ContextMenu extends React.Component {
         this.props.deleteMessage(this.message);
         break;
       case "edit":
-        console.log("Edit")
+        this.props.switchFormMode(true);
         break;
       case "react":
         console.log("React to")
