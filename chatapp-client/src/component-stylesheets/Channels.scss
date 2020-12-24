@@ -94,12 +94,16 @@ html,body {
     overflow: auto;
     & > p.name {
       color: #FFF;
-      font-size: 1em;
+      font-size: 1.1em;
     }
     & > p.message {
       color: #FFF;
-      font-size: 0.7em;
-      margin: 0 2.8em;
+      font-size: 0.9em;
+      margin: 0 1.3em;
+    }
+    span {
+      font-size: 0.6em;
+      color: #778899;
     }
   }
   &__user-list {
@@ -112,7 +116,7 @@ html,body {
     h1 {
       background: rgba(255, 255, 255, 0.05);
       color: rgba(255, 255, 255, 0.9);
-      font-size: 0.9em;
+      font-size: 1em;
       padding: 1em;
       margin: 0;
       font-weight: 300;
@@ -120,8 +124,8 @@ html,body {
     }
   }
   &__user {
-    width: 0.5em;
-    height: 0.5em;
+    width: 0.7em;
+    height: 0.7em;
     border-radius: 100%;
     margin: 1em 0.7em;
     &--active {
@@ -140,11 +144,11 @@ html,body {
   p {
     float: left;
     text-align: left;
-    margin: -0.25em 2em;
-    font-size: 0.7em;
+    margin: -.5em 1em;
+    font-size: 1.2em;
     font-weight: 300;
     color: #FFF;
-    width: 200px;
+    width: 300px;
   }
 }
 

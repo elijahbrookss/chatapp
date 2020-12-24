@@ -46,8 +46,9 @@ class Channel extends React.Component {
     .then(channelObj => {
       const suffix = "'s chat";
       this.channelOwner = channelObj.channel_owner;
+      const messages = channelObj.messages.sort((a,b) =>  new Date(a.created_at) - new Date(b.created_at));
       this.setState({
-        messages: channelObj.messages,
+        messages,
         users: [...channelObj.users, channelObj.channel_owner],
         chatName: channelObj.channel_owner.username + suffix
       })
@@ -58,7 +59,7 @@ class Channel extends React.Component {
     e.preventDefault();
     const editMode = this.state.editMode;
     const messageClicked = this.state.messageClicked;
-    
+
     if (editMode){
       this.setState({editMode: false})
       messageClicked.content = content
@@ -107,6 +108,7 @@ class Channel extends React.Component {
       const updatedMessage = messages.find(currentMessage => currentMessage.id === message.id);
       updatedMessage.content = newMessage.content;
       this.setState({messages});
+      console.log(this.state.messageClicked);
     })
   }
 
