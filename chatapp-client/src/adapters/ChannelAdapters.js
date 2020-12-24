@@ -39,6 +39,17 @@ class ChannelAdapters {
     })
   }
 
+  static deleteMessage(message){
+    const id = message.getAttribute("datasetid");
+    return fetch(messagesRoute+`/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        [headerKey]: authToken
+      }
+    })
+  }
+
 }
 
 export default ChannelAdapters;
