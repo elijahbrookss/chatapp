@@ -12,6 +12,43 @@ export default class LoginSignup extends Component {
 
   triggerChange = () =>this.setState({login:!this.state.login})
 
+  login = (e, username, password) => {
+    e.preventDefault();
+    fetch(`http://localhost:3001/login`, {
+      method: "POST",
+      headers: { "Content-Type":"application/json"},
+      body: JSON.stringify({
+        user: {
+          username: username,
+          password: password
+        }
+      })
+    })
+    .then( res => res.json() )
+    .then( data => {
+      localStorage.setItem('auth_key', data['jwt'])
+    })
+  }
+
+  signUp = (e, firstName, lastName, username, email, password) => {
+    e.preventDefault()
+    fetch(`http://localhost:3001/users`, {
+      method: "POST",
+      headers: { "Content-Type":"application/json" },
+      body: JSON.stringify({
+        user: {
+          first_name: firstName,
+          last_name: lastName,
+          username: username,
+          email: email,
+          password: password
+        }
+      })
+    })
+    .then( res => res.json() )
+    .then( data => localStorage.setItem('auth_key', data['jwt']))
+  }
+
   render(){
     const loginState = this.state.login;
     const buttonText = loginState ?
@@ -30,8 +67,7 @@ export default class LoginSignup extends Component {
           </header>
         </div>
         <div className="login-form">
-          {loginState ? <Login /> : <Signup />}
-          <Button type='submit'>Submit</Button>
+          {loginState ? <Login login={this.login} /> : <Signup signUp={this.signUp}/>}
           <div></div>
           <Button className="button" onClick={this.triggerChange}>{buttonText}</Button>
         </div>
