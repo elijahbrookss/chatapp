@@ -4,36 +4,33 @@ import UserList from './UserList';
 import MessageContainer from './MessageContainer';
 import MessageForm from '../components/MessageForm';
 import ContextMenu from '../components/ContextMenu';
-import { ActionCableConsumer } from 'react-actioncable-provider';
-
+import ActionCable, { ActionCable as ac} from 'actioncable'
 import ChannelAdapters from '../adapters/ChannelAdapters'
 
-const chatbox = document.querySelector(".chatbox__messages");
+const cable = ActionCable.createConsumer('ws://localhost:3001/cable')
 
 class Channel extends React.Component {
-
   state = {
     messages: [],
     users: [],
-    chatName: "Are you a hacker? 😂",
+    chatName: "",
     displayContextMenu: false,
     messageClicked: {
       content: undefined
     },
     messageEvent: {},
     editMode: false,
-    initialized: false
   }
+
   channelId = this.props.match.params.id;
   user = {};
   channelOwner = {};
 
-
   componentDidMount(){
     this.fetchChannel(this.channelId);
     this.fetchUser();
+    this.createSubscription();
     document.onclick = this.hideContextMenu;
-    this.setState({initialized: true});
   }
 
 
@@ -61,6 +58,7 @@ class Channel extends React.Component {
   }
 
   componentDidUpdate(){
+    const chatbox = document.querySelector(".chatbox__messages");
     if(chatbox){
       chatbox.scrollTop = chatbox.scrollHeight
     }
@@ -80,14 +78,19 @@ class Channel extends React.Component {
     }
   }
 
-  renderNewMessage = (message) => {
-    console.log(message)
-    message = JSON.parse(message)
-    const messages = this.state.messages;
+  createSubscription = () => {
+    cable.subscriptions.create(
+      { channel: 'MessagesChannel',
+        channel_id: this.channelId,
+     },
+      { received: messages => this.renderChangesInMessages(messages) }
+    )
+  }
 
-    if (!messages.find(cmessage => cmessage.id === message.id)){
-      this.setState({messages: [...messages, message]});
-    }
+  renderChangesInMessages = (messages) => {
+    messages = JSON.parse(messages);
+    messages = messages.sort((a,b) =>  new Date(a.created_at) - new Date(b.created_at));
+    this.setState({messages});
   }
 
   createNewMessage = (e) => {
@@ -101,12 +104,7 @@ class Channel extends React.Component {
   }
 
   deleteMessage = (message) => {
-
     ChannelAdapters.deleteMessage(message)
-    .then(() => {
-      const messages =  this.state.messages.filter(currentMessage=> currentMessage.id !== message.id);
-      this.setState({messages})
-    })
   }
 
   switchFormMode = (mode) => {
@@ -115,14 +113,6 @@ class Channel extends React.Component {
 
   editMessage = (message) => {
     ChannelAdapters.editMessage(message)
-    .then(response => response.json())
-    .then(newMessage => {
-      const messages = this.state.messages
-      const updatedMessage = messages.find(currentMessage => currentMessage.id === message.id);
-      updatedMessage.content = newMessage.content;
-      this.setState({messages});
-      console.log(this.state.messageClicked);
-    })
   }
 
   changeDisplayContextMenu = (e, message) => {
@@ -169,10 +159,13 @@ class Channel extends React.Component {
     const displayContextMenu = this.state.displayContextMenu;
     return(
       <>
-      {this.state.initialized ? null :       <ActionCableConsumer
-              channel={{ channel: 'MessagesChannel' }}
-              onReceived={this.renderNewMessage}
-            /> }
+      <ac
+        channel={{ channel: 'MessagesChannel',
+          channel_id: this.channelId,
+       }}
+        onReceived={this.renderChangesInMessages}
+      />
+
       <div className='container' ng-cloak="true" ng-app="chatApp">
         <h1> {this.state.chatName} </h1>
         <div className='chatbox' ng-controller="MessageCtrl as chatMessage">

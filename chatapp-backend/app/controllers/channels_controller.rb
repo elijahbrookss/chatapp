@@ -1,31 +1,31 @@
 class ChannelsController < ApplicationController
 
-  def index 
+  def index
     channels = Channel.all
-    render json: ChannelSerializer.new(channels).serialize 
+    render json: ChannelSerializer.new(channels).serialize
   end
 
   def show
     channel = Channel.find_by(id: params[:id])
-    render json: ChannelSerializer.new(channel).serialize 
+    render json: ChannelSerializer.new(channel).serialize
   end
 
   def create
     channel = Channel.new(channel_params)
     if Channel.save
-      render json: ChannelSerializer.new(channel).serialize 
+      render json: ChannelSerializer.new(channel).serialize
     end
   end
 
-  def update 
+  def update
     channel = Channel.find_by(id: params[:id])
     channel.update(channel_params)
-    if channel.save 
-      render json: ChannelSerializer.new( hannel).serialize 
+    if channel.save
+      render json: ChannelSerializer.new(channel).serialize
     end
   end
 
-  def destroy 
+  def destroy
     channel = Channel.find_by(id: params[:id])
     channel.destroy
   end

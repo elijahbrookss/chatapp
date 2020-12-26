@@ -7,10 +7,9 @@ class MessagesController < ApplicationController
 
   def create
     message = Message.new(message_params)
+    channel = message.channel;
     if message.save
-      ActionCable.server.broadcast 'messages_channel', MessageSerializer.new(message).serialize
-    else
-      puts("There was an error.")
+      broadcast_changes(message)
     end
 
   end
@@ -19,13 +18,14 @@ class MessagesController < ApplicationController
     message = Message.find_by(id: params[:id])
     message.update(message_params)
     if message.save
-      render json: MessageSerializer.new(message).serialize
+      broadcast_changes(message)
     end
   end
 
   def destroy
     message = Message.find_by(id: params[:id])
     message.destroy
+    broadcast_changes(message)
   end
 
   private
@@ -33,4 +33,9 @@ class MessagesController < ApplicationController
     params.require(:message).permit(:content, :user_id, :channel_id)
   end
 
+  def broadcast_changes(message)
+    channel = message.channel
+    messages = Message.all
+    MessagesChannel.broadcast_to(channel, MessageSerializer.new(messages).serialize)
+  end
 end
