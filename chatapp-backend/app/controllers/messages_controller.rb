@@ -8,8 +8,11 @@ class MessagesController < ApplicationController
   def create
     message = Message.new(message_params)
     if message.save
-      render json: MessageSerializer.new(message).serialize
+      ActionCable.server.broadcast 'messages_channel', MessageSerializer.new(message).serialize
+    else
+      puts("There was an error.")
     end
+
   end
 
   def update
