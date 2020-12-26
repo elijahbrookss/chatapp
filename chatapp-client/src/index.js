@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { ActionCableProvider } from 'react-actioncable-provider';
+
 
 ReactDOM.render(
-  <React.StrictMode>
+  <ActionCableProvider url={'ws://localhost:3001/cable'}>
     <App />
-  </React.StrictMode>,
+  </ActionCableProvider>,
   document.getElementById('root')
 );

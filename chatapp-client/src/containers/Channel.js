@@ -4,8 +4,11 @@ import UserList from './UserList';
 import MessageContainer from './MessageContainer';
 import MessageForm from '../components/MessageForm';
 import ContextMenu from '../components/ContextMenu';
+import { ActionCableConsumer } from 'react-actioncable-provider';
 
 import ChannelAdapters from '../adapters/ChannelAdapters'
+
+const chatbox = document.querySelector(".chatbox__messages");
 
 class Channel extends React.Component {
 
@@ -18,19 +21,21 @@ class Channel extends React.Component {
       content: undefined
     },
     messageEvent: {},
-    editMode: false
+    editMode: false,
+    initialized: false
   }
-
   channelId = this.props.match.params.id;
   user = {};
   channelOwner = {};
+
 
   componentDidMount(){
     this.fetchChannel(this.channelId);
     this.fetchUser();
     document.onclick = this.hideContextMenu;
-
+    this.setState({initialized: true});
   }
+
 
   fetchUser = () => {
     ChannelAdapters.fetchUser()
@@ -55,6 +60,12 @@ class Channel extends React.Component {
     })
   }
 
+  componentDidUpdate(){
+    if(chatbox){
+      chatbox.scrollTop = chatbox.scrollHeight
+    }
+  }
+
   formSubmit = (e, content) => {
     e.preventDefault();
     const editMode = this.state.editMode;
@@ -69,10 +80,17 @@ class Channel extends React.Component {
     }
   }
 
-  createNewMessage = (e) => {
-    const chatbox = e.nativeEvent.path[1].childNodes[1].childNodes[1];
+  renderNewMessage = (message) => {
+    console.log(message)
+    message = JSON.parse(message)
     const messages = this.state.messages;
 
+    if (!messages.find(cmessage => cmessage.id === message.id)){
+      this.setState({messages: [...messages, message]});
+    }
+  }
+
+  createNewMessage = (e) => {
     const message = {
       content: e.target.elements[0].value,
       user_id: this.user.id,
@@ -80,11 +98,6 @@ class Channel extends React.Component {
     }
     e.target.reset();
     ChannelAdapters.createMessage(message)
-    .then(response=> response.json())
-    .then(message=>{
-      this.setState({messages: [...messages, message]})
-      chatbox.scrollTop = chatbox.scrollHeight;
-      })
   }
 
   deleteMessage = (message) => {
@@ -156,6 +169,10 @@ class Channel extends React.Component {
     const displayContextMenu = this.state.displayContextMenu;
     return(
       <>
+      {this.state.initialized ? null :       <ActionCableConsumer
+              channel={{ channel: 'MessagesChannel' }}
+              onReceived={this.renderNewMessage}
+            /> }
       <div className='container' ng-cloak="true" ng-app="chatApp">
         <h1> {this.state.chatName} </h1>
         <div className='chatbox' ng-controller="MessageCtrl as chatMessage">
