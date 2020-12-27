@@ -35,7 +35,7 @@ class MessagesController < ApplicationController
 
   def broadcast_changes(message)
     channel = message.channel
-    messages = Message.all
+    messages = channel.messages
     MessagesChannel.broadcast_to(channel, MessageSerializer.new(messages).serialize)
   end
 end

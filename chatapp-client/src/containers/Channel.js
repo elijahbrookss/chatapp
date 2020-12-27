@@ -160,7 +160,8 @@ class Channel extends React.Component {
     return(
       <>
       <ac
-        channel={{ channel: 'MessagesChannel',
+        channel={{
+          channel: 'MessagesChannel',
           channel_id: this.channelId,
        }}
         onReceived={this.renderChangesInMessages}
