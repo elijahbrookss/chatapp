@@ -4,7 +4,7 @@ import UserList from './UserList';
 import MessageContainer from './MessageContainer';
 import MessageForm from '../components/MessageForm';
 import ContextMenu from '../components/ContextMenu';
-import ActionCable, { ActionCable as ac} from 'actioncable'
+import ActionCable, { ActionCable as ActionCableComponent} from 'actioncable'
 import ChannelAdapters from '../adapters/ChannelAdapters'
 
 const cable = ActionCable.createConsumer('ws://localhost:3001/cable')
@@ -159,7 +159,7 @@ class Channel extends React.Component {
     const displayContextMenu = this.state.displayContextMenu;
     return(
       <>
-      <ac
+      <ActionCableComponent
         channel={{
           channel: 'MessagesChannel',
           channel_id: this.channelId,
