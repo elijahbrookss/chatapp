@@ -2,7 +2,7 @@ import React from 'react';
 
 class MessageForm extends React.Component {
   state= {
-    value: undefined,
+    value: "",
     editStarted: false
   }
 
