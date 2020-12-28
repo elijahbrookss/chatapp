@@ -24,14 +24,14 @@ class ContextMenu extends React.Component {
     }
   }
 
+
   render(){
     return(
-      <div id="contextMenu" className="context-menu" onClick={this.handleMessage}>
-        <ul>
-          <li><div className="delete">Delete Message</div></li>
-          <li><div className="edit">Edit Message</div></li>
-          <li><div className="react">Add Reaction</div></li>
-        </ul>
+      <div className="custom-cm" id="contextMenu" onClick={this.handleMessage}>
+        <div className = "custom-cm__item"> Item #1 </div>
+        <div className = "custom-cm__item"> Item #1 </div>
+        <div className = "custom-cm__divider"></div>
+        <div className = "custom-cm__item"> Item #1 </div>
       </div>
     );
   }

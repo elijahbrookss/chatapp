@@ -4,8 +4,9 @@ import UserList from './UserList';
 import MessageContainer from './MessageContainer';
 import MessageForm from '../components/MessageForm';
 import ContextMenu from '../components/ContextMenu';
-import ActionCable, { ActionCable as ac} from 'actioncable'
-import ChannelAdapters from '../adapters/ChannelAdapters'
+import Header from '../components/Header';
+import ActionCable, { ActionCable as ac} from 'actioncable';
+import ChannelAdapters from '../adapters/ChannelAdapters';
 
 const cable = ActionCable.createConsumer('ws://localhost:3001/cable')
 
@@ -13,7 +14,6 @@ class Channel extends React.Component {
   state = {
     messages: [],
     users: [],
-    chatName: "",
     displayContextMenu: false,
     messageClicked: {
       content: undefined
@@ -34,6 +34,12 @@ class Channel extends React.Component {
   }
 
 
+  fixChat = () => {
+    const chatbox = document.querySelector(".chatbox__messages");
+    chatbox.scrollTop = chatbox.scrollHeight;
+  }
+
+
   fetchUser = () => {
     ChannelAdapters.fetchUser()
     .then(response => response.json())
@@ -46,22 +52,13 @@ class Channel extends React.Component {
     ChannelAdapters.fetchChannel(id)
     .then(resp => resp.json())
     .then(channelObj => {
-      const suffix = "'s chat";
       this.channelOwner = channelObj.channel_owner;
       const messages = channelObj.messages.sort((a,b) =>  new Date(a.created_at) - new Date(b.created_at));
       this.setState({
         messages,
         users: [...channelObj.users, channelObj.channel_owner],
-        chatName: channelObj.channel_owner.username + suffix
       })
     })
-  }
-
-  componentDidUpdate(){
-    const chatbox = document.querySelector(".chatbox__messages");
-    if(chatbox){
-      chatbox.scrollTop = chatbox.scrollHeight
-    }
   }
 
   formSubmit = (e, content) => {
@@ -88,9 +85,11 @@ class Channel extends React.Component {
   }
 
   renderChangesInMessages = (messages) => {
+    const oldMessages = this.state.messages;
     messages = JSON.parse(messages);
     messages = messages.sort((a,b) =>  new Date(a.created_at) - new Date(b.created_at));
     this.setState({messages});
+    if(oldMessages.length < messages.length){this.fixChat()};
   }
 
   createNewMessage = (e) => {
@@ -149,10 +148,10 @@ class Channel extends React.Component {
   }
 
   positionContextMenu = () => {
+    console.log(this.state.messageEvent);
     const contextMenu = document.querySelector("#contextMenu");
-    contextMenu.style.display = "block";
     contextMenu.style.left = this.state.messageEvent.pageX + "px";
-    contextMenu.style.top = this.state.messageEvent.pageY + "px";
+    contextMenu.style.top = this.state.messageEvent.pageY  + "px";
   }
 
   render() {
@@ -167,7 +166,9 @@ class Channel extends React.Component {
       />
 
       <div className='container' ng-cloak="true" ng-app="chatApp">
-        <h1> {this.state.chatName} </h1>
+
+        <Header channelOwner={this.channelOwner} />
+
         <div className='chatbox' ng-controller="MessageCtrl as chatMessage">
           <UserList users={this.state.users} />
           <MessageContainer

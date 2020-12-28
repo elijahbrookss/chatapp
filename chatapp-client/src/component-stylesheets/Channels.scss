@@ -6,29 +6,32 @@ $active: rgba(23, 190, 187, 0.8);
 $busy: rgba(252, 100, 113, 0.8);
 $away: rgba(255, 253, 130, 0.8);
 
-.context-menu {
-    position: absolute;
-    text-align: center;
-    background: rgba(100, 100, 100, .1);
-    // border: 1px solid black;
+.custom-cm {
+  background:#1b1a1a;
+  border: 1px solid #cccccc;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+  display: none;
+  padding: 10px 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200px;
 }
 
-.context-menu ul {
-    padding: 0px;
-    margin: 0px;
-    min-width: 150px;
-    list-style: none;
+.custom-cm__item {
+  cursor: pointer;
+  padding: 8px 15px;
 }
 
-.context-menu ul li {
-    padding-bottom: 7px;
-    padding-top: 7px;
-    border: 1px solid black;
+.custom-cm__item:hover {
+  background:#555;
 }
 
-.context-menu ul li:hover {
-    background: rgba(23, 180, 177, 1);
+.custom-cm__divider {
+  border-bottom: 1px solid #eeeeee;
+  margin: 10px 0;
 }
+
 
 
 * {
