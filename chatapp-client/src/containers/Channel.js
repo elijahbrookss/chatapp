@@ -25,6 +25,7 @@ class Channel extends React.Component {
   channelId = this.props.match.params.id;
   user = {};
   channelOwner = {};
+  channel = {};
 
   componentDidMount(){
     this.fetchChannel(this.channelId);
@@ -39,7 +40,6 @@ class Channel extends React.Component {
     chatbox.scrollTop = chatbox.scrollHeight;
   }
 
-
   fetchUser = () => {
     ChannelAdapters.fetchUser()
     .then(response => response.json())
@@ -53,6 +53,7 @@ class Channel extends React.Component {
     .then(resp => resp.json())
     .then(channelObj => {
       this.channelOwner = channelObj.channel_owner;
+      this.channel = channelObj;
       const messages = channelObj.messages.sort((a,b) =>  new Date(a.created_at) - new Date(b.created_at));
       this.setState({
         messages,
@@ -115,29 +116,32 @@ class Channel extends React.Component {
   }
 
   changeDisplayContextMenu = (e, message) => {
+    const contextMenu = document.querySelector("#contextMenu");
     e.preventDefault();
     if (this.isPermitted(message)){
-      if (this.state.displayContextMenu) {
-        this.hideContextMenu();
-      }else {
         this.setState({
           messageClicked: message,
           messageEvent: e
         })
-        this.displayContextMenu();
-      }
+        if(contextMenu){
+          this.positionContextMenu(e);
+        }else{
+          this.displayContextMenu();
+        }
     }
   }
 
   displayContextMenu = () => {
+    const contextMenu = document.querySelector("#contextMenu");
     this.setState({displayContextMenu: true});
   }
 
   hideContextMenu = () => {
+    const contextMenu = document.querySelector("#contextMenu");
     this.setState({displayContextMenu: false});
   }
 
-  isPermitted = (message) => {
+  isPermitted = (message = {}) => {
     const channelOwner = this.channelOwner;
     const currentUser = this.user;
     const messageUser = message.user;
@@ -147,11 +151,16 @@ class Channel extends React.Component {
     return false
   }
 
-  positionContextMenu = () => {
-    console.log(this.state.messageEvent);
+  isOwner = () => {
+    return this.user.id === this.channelOwner.id
+  }
+
+  positionContextMenu = (messageEvent = this.state.messageEvent) => {
     const contextMenu = document.querySelector("#contextMenu");
-    contextMenu.style.left = this.state.messageEvent.pageX + "px";
-    contextMenu.style.top = this.state.messageEvent.pageY  + "px";
+    contextMenu.style.display = "block";
+    contextMenu.style.left = messageEvent.pageX + "px";
+    contextMenu.style.top = messageEvent.pageY + "px";
+
   }
 
   render() {
@@ -167,7 +176,12 @@ class Channel extends React.Component {
 
       <div className='container' ng-cloak="true" ng-app="chatApp">
 
-        <Header channelOwner={this.channelOwner} />
+        <Header
+          channelOwner={this.channelOwner}
+          isOwner={this.isOwner}
+          channelId={this.channelId}
+          channel={this.channel}
+        />
 
         <div className='chatbox' ng-controller="MessageCtrl as chatMessage">
           <UserList users={this.state.users} />

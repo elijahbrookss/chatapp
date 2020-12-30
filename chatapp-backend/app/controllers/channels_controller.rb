@@ -19,7 +19,7 @@ class ChannelsController < ApplicationController
 
   def update
     channel = Channel.find_by(id: params[:id])
-    channel.update(channel_params)
+    channel.update(name: params[:channel][:chatName])
     if channel.save
       render json: ChannelSerializer.new(channel).serialize
     end

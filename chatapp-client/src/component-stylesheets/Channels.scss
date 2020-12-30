@@ -1,36 +1,41 @@
 // Variables
-$primary: rgba(23, 190, 187, 1);
-$secondary: rgba(240, 166, 202, 1);
+$primary: rgba(23, 160, 157, 1);
+$secondary: rgba(200, 126, 180, 1);
 
 $active: rgba(23, 190, 187, 0.8);
 $busy: rgba(252, 100, 113, 0.8);
 $away: rgba(255, 253, 130, 0.8);
 
-.custom-cm {
-  background:#1b1a1a;
-  border: 1px solid #cccccc;
-  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
-  display: none;
-  padding: 10px 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200px;
+#contextMenu {
+  position:fixed;
+  z-index:10000;
+  width:150px;
+  background: rgba(27,26,26, 0.8);
+  border-radius:5px;
+  transform:scale(0);
+  transform-origin:top left;
 }
-
-.custom-cm__item {
-  cursor: pointer;
-  padding: 8px 15px;
+#contextMenu.active {
+  transform:scale(1);
+  transition:transform 300ms ease-in-out;
 }
-
-.custom-cm__item:hover {
+#contextMenu .item {
+  padding:8px 10px;
+  font-size:15px;
+  color:#eee;
+}
+#contextMenu .item:hover {
   background:#555;
 }
-
-.custom-cm__divider {
-  border-bottom: 1px solid #eeeeee;
-  margin: 10px 0;
+#contextMenu .item i {
+  display:inline-block;
+  margin-right:5px;
 }
+#contextMenu hr {
+  margin:2px 0px;
+  border-color:#555;
+}
+
 
 
 

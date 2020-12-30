@@ -2,6 +2,7 @@ const localHost = "http://localhost:3001";
 const channelRoute = localHost+"/channels";
 const currentUserRoute = localHost+"/current-user";
 const messagesRoute = localHost+"/messages";
+const channelsRoute = localHost+"/channels";
 
 const headerKey = "Authorization";
 const authToken = localStorage.getItem("auth_key");
@@ -49,6 +50,15 @@ class ChannelAdapters {
       method: "PATCH",
       headers: header,
       body: JSON.stringify(message)
+    })
+  }
+
+  static editChatName(channel){
+    const id = channel.id;
+    return fetch(channelsRoute+`/${id}`, {
+      method: "PUT",
+      headers: header,
+      body: JSON.stringify({channel})
     })
   }
 

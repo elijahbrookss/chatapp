@@ -1,16 +1,58 @@
 import {Form} from 'semantic-ui-react'
 import React from 'react'
+import ChannelAdapters from '../adapters/ChannelAdapters';
 
 class Header extends React.Component {
 
+  state = {
+    formState: false,
+    chatName: "",
+  }
 
   componentDidUpdate(){
-    
+    if(this.state.chatName === ""){
+      const channelOwner = this.props.channelOwner.username
+      this.setState({chatName: this.props.channel.name})
+    }
+  }
+
+  changeFormState = (e) => {
+    if(this.props.isOwner()){
+      this.setState({formState: true})
+    }
+  }
+
+  changeHeaderState = (e) => {
+    this.setState({formState: false});
+  }
+
+  updateChatName = (e) => {
+    const chatName = e.target.firstChild.firstChild.value
+    this.setState({chatName});
+    this.changeHeaderState();
+
+    const channel = {
+      id: this.props.channelId,
+      chatName
+    }
+    ChannelAdapters.editChatName(channel)
+    .then(resp => resp.json())
+    .then(console.log)
   }
 
   render () {
     return(
-      <h1> Welcome Back, Login </h1>
+      <div onClick={this.changeFormState} className = "chatText">
+          { this.state.formState ?
+              <Form onSubmit={this.updateChatName}>
+                <Form.Field>
+                  <input />
+                </Form.Field>
+              </Form>
+              :
+              <h1>{this.state.chatName}</h1>
+          }
+      </div>
     )
   }
   }
