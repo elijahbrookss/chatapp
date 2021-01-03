@@ -3,6 +3,8 @@ const channelRoute = localHost+"/channels";
 const currentUserRoute = localHost+"/current-user";
 const messagesRoute = localHost+"/messages";
 const channelsRoute = localHost+"/channels";
+const usersRoute = localHost+"/users";
+const userChannelRoute = localHost+'/user_channels';
 
 const headerKey = "Authorization";
 const authToken = localStorage.getItem("auth_key");
@@ -53,7 +55,7 @@ class ChannelAdapters {
     })
   }
 
-  static editChatName(channel){
+  static updateChannel(channel){
     const id = channel.id;
     return fetch(channelsRoute+`/${id}`, {
       method: "PUT",
@@ -62,6 +64,23 @@ class ChannelAdapters {
     })
   }
 
+  static fetchAllUsers(){
+    return fetch(usersRoute, {
+      method: "GET",
+      headers: header
+    })
+  }
+
+  static inviteUserToChannel(user, channel){
+    return fetch(userChannelRoute, {
+      method: "POST",
+      headers: header,
+      body: JSON.stringify({
+        user_id: user.id,
+        channel_id: channel.id
+      })
+    })
+  }
 }
 
 export default ChannelAdapters;

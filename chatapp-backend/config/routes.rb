@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :messages, only: [:index, :create, :update, :destroy]
   resources :users, only: [:index, :show, :create, :update, :destroy]
   resources :login, only: [:create]
+  resources :user_channels, only: [:create, :destroy]
 
   # Custom route for current user
   get '/current-user', to: "users#get_current_user"

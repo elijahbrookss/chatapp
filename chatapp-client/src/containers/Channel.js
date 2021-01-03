@@ -132,12 +132,10 @@ class Channel extends React.Component {
   }
 
   displayContextMenu = () => {
-    const contextMenu = document.querySelector("#contextMenu");
     this.setState({displayContextMenu: true});
   }
 
   hideContextMenu = () => {
-    const contextMenu = document.querySelector("#contextMenu");
     this.setState({displayContextMenu: false});
   }
 
@@ -177,14 +175,16 @@ class Channel extends React.Component {
       <div className='container' ng-cloak="true" ng-app="chatApp">
 
         <Header
-          channelOwner={this.channelOwner}
           isOwner={this.isOwner}
           channelId={this.channelId}
           channel={this.channel}
         />
 
         <div className='chatbox' ng-controller="MessageCtrl as chatMessage">
-          <UserList users={this.state.users} />
+          <UserList
+            users={this.state.users}
+            channel={this.channel}
+          />
           <MessageContainer
             user={this.user}
             messages={this.state.messages}

@@ -11,7 +11,6 @@ class Header extends React.Component {
 
   componentDidUpdate(){
     if(this.state.chatName === ""){
-      const channelOwner = this.props.channelOwner.username
       this.setState({chatName: this.props.channel.name})
     }
   }
@@ -30,12 +29,9 @@ class Header extends React.Component {
     const chatName = e.target.firstChild.firstChild.value
     this.setState({chatName});
     this.changeHeaderState();
-
-    const channel = {
-      id: this.props.channelId,
-      chatName
-    }
-    ChannelAdapters.editChatName(channel)
+    const channel = this.props.channel;
+    channel.name = chatName;
+    ChannelAdapters.updateChannel(channel)
     .then(resp => resp.json())
     .then(console.log)
   }
