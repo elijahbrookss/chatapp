@@ -52,7 +52,7 @@ export default class LoginSignup extends Component {
   render(){
     const loginState = this.state.login;
     const buttonText = loginState ?
-    "Don't have an account? No worries, we got you. Click here"
+    "Sign up"
     :
     "Got an account? Click here"
 
@@ -63,7 +63,7 @@ export default class LoginSignup extends Component {
         </nav>
         <div className="main w3-main w3-padding-large">
           <header className="w3-container w3-center header">
-            <h1 className="w3-jumbo"><b>Blabber</b></h1>
+            <h1 className="w3-jumbo name"><b>Blabber</b></h1>
           </header>
         </div>
         <div className="login-form">

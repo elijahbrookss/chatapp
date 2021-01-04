@@ -13,7 +13,6 @@ const cable = ActionCable.createConsumer('ws://localhost:3001/cable')
 class Channel extends React.Component {
   state = {
     messages: [],
-    users: [],
     displayContextMenu: false,
     messageClicked: {
       content: undefined
@@ -57,7 +56,6 @@ class Channel extends React.Component {
       const messages = channelObj.messages.sort((a,b) =>  new Date(a.created_at) - new Date(b.created_at));
       this.setState({
         messages,
-        users: [...channelObj.users, channelObj.channel_owner],
       })
     })
   }
@@ -182,7 +180,7 @@ class Channel extends React.Component {
 
         <div className='chatbox' ng-controller="MessageCtrl as chatMessage">
           <UserList
-            users={this.state.users}
+            channelId={this.channelId}
             channel={this.channel}
           />
           <MessageContainer

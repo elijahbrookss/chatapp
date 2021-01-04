@@ -6,16 +6,12 @@ $active: rgba(23, 190, 187, 0.8);
 $busy: rgba(252, 100, 113, 0.8);
 $away: rgba(255, 253, 130, 0.8);
 
-
-* {
-  margin: 0; padding: 0;
-  box-sizing: border-box;
-  font-family: 'Nunito', sans-serif;
+*{
+  font-family: monospace;
 }
 
 body {
-  background: linear-gradient(120deg, $primary, $secondary);
-  overflow: hidden;
+  background: rgba(0, 0, 0, .5);
 }
 
 #inviteButton {
@@ -180,7 +176,7 @@ body {
 .input-form {
   background: #222;
   input {
-    background: rgba(100, 100, 100, 0.4);
+    background: rgba(255, 255, 255, .2);
     position: absolute;
     bottom: 3em;
     left: 32.8%;
@@ -195,7 +191,6 @@ body {
 }
 
 .chatbox__messages {
-  // background: rgba(255, 255, 255, 0.05);
   height: 63%;
   width: 100%;
   position: fixed;
@@ -205,17 +200,5 @@ body {
 
 // Placeholder Styling
 ::-webkit-input-placeholder {
-   color: rgba(175, 175, 175, 0.9);
-}
-
-:-moz-placeholder {
-   color: rgba(175, 175, 175, 0.9);
-}
-
-::-moz-placeholder {
-  color: rgba(175, 175, 175, 0.9);
-}
-
-:-ms-input-placeholder {
    color: rgba(175, 175, 175, 0.9);
 }

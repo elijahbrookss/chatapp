@@ -2,10 +2,6 @@
   margin-left: 60%;
 }
 
-.holder{
-}
-
-h1{font-family: "Montserrat", sans-serif}
 .w3-row-padding img {margin-bottom: 12px}
 .bgimg {
   background-position: center;
@@ -30,4 +26,8 @@ h1{font-family: "Montserrat", sans-serif}
 
 .sidebar{
   width: 40%;
+}
+
+.name{
+  color: rgba(255, 255, 255, 1);
 }
