@@ -1,0 +1,9 @@
+body, html {height: 100%}
+.bgimg {
+  background-position: center;
+  background-size: cover;
+}
+
+.mid-section{
+  position: fixed;
+}
