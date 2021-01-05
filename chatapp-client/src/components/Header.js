@@ -9,8 +9,8 @@ class Header extends React.Component {
     chatName: "",
   }
 
-  componentDidUpdate(){
-    if(this.state.chatName === ""){
+  componentDidUpdate(a, b){
+    if(this.state.chatName === "" && this.props.channel.name){
       this.setState({chatName: this.props.channel.name})
     }
   }
@@ -27,13 +27,12 @@ class Header extends React.Component {
 
   updateChatName = (e) => {
     const chatName = e.target.firstChild.firstChild.value
-    this.setState({chatName});
-    this.changeHeaderState();
     const channel = this.props.channel;
     channel.name = chatName;
+
+    this.setState({chatName});
+    this.changeHeaderState();
     ChannelAdapters.updateChannel(channel)
-    .then(resp => resp.json())
-    .then(console.log)
   }
 
   render () {

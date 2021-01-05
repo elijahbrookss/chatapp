@@ -81,6 +81,16 @@ class ChannelAdapters {
       })
     })
   }
+
+  static newChannel(){
+    return fetch(channelRoute, {
+      method: "POST",
+      headers: header,
+      body: JSON.stringify({
+        name: "New Channel",
+      })
+    })
+  }
 }
 
 export default ChannelAdapters;

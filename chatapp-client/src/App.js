@@ -15,10 +15,11 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          <Route exact path="/" component={LandingPage} />
           <Route exact path="/login" component={LoginSignup}/>
           <Route exact path="/channels/:id" component={Channel} />
-          <Route exact path="/users/:id" component={User} />
+          <Route exact path="/profile" component={User} />
+          <Route exact path="/" component={LandingPage} />
+
         </Switch>
       </Router>
     </div>

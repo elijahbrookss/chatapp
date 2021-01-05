@@ -11,7 +11,7 @@ class ChannelsController < ApplicationController
   end
 
   def create
-    channel = Channel.new(channel_params)
+    channel = Channel.new(name: channel_params[:name], owner_id: current_user.id)
     if channel.save
       render json: ChannelSerializer.new(channel).serialize
     end
@@ -32,7 +32,7 @@ class ChannelsController < ApplicationController
 
   private
   def channel_params
-    params.require(:channel).permit(:name, :users)
+    params.require(:channel).permit(:name, :owner_id)
   end
 
 end

@@ -36,7 +36,7 @@ class UsersController < ApplicationController
 
 # Custom route
   def get_current_user
-    render json: current_user
+    render json: UserSerializer.new(current_user).serialize
   end
 
   private

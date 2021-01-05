@@ -22,7 +22,6 @@ class UserList extends React.Component {
     .then(channelObj => {
       const channelUsers = [...channelObj.users, channelObj.channel_owner];
       this.setState({channelUsers})
-      console.log(channelUsers)
     })
   }
 

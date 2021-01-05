@@ -19,12 +19,12 @@ class Channel extends React.Component {
     },
     messageEvent: {},
     editMode: false,
+    channel: {}
   }
 
   channelId = this.props.match.params.id;
   user = {};
   channelOwner = {};
-  channel = {};
 
   componentDidMount(){
     this.fetchChannel(this.channelId);
@@ -52,9 +52,9 @@ class Channel extends React.Component {
     .then(resp => resp.json())
     .then(channelObj => {
       this.channelOwner = channelObj.channel_owner;
-      this.channel = channelObj;
       const messages = channelObj.messages.sort((a,b) =>  new Date(a.created_at) - new Date(b.created_at));
       this.setState({
+        channel: channelObj,
         messages,
       })
     })
@@ -175,13 +175,13 @@ class Channel extends React.Component {
         <Header
           isOwner={this.isOwner}
           channelId={this.channelId}
-          channel={this.channel}
+          channel={this.state.channel}
         />
 
         <div className='chatbox' ng-controller="MessageCtrl as chatMessage">
           <UserList
             channelId={this.channelId}
-            channel={this.channel}
+            channel={this.state.channel}
           />
           <MessageContainer
             user={this.user}
@@ -196,9 +196,10 @@ class Channel extends React.Component {
           />
       </div>
       {displayContextMenu ? <ContextMenu
+          mode="channel"
           switchFormMode={this.switchFormMode}
-          deleteMessage={this.deleteMessage}
-          messageClicked={this.state.messageClicked}
+          deleteSelection={this.deleteMessage}
+          selected={this.state.messageClicked}
           positionContextMenu={this.positionContextMenu}
         /> : null}
       </>
