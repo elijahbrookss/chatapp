@@ -91,6 +91,25 @@ class ChannelAdapters {
       })
     })
   }
+
+  static deleteChannel(channel){
+    const id = channel.id;
+    return fetch(channelRoute+`/${id}`, {
+      method: "DELETE",
+      headers: header,
+    })
+  }
+
+  static leaveChannel(channel, user){
+    return fetch(userChannelRoute+"/leave", {
+      method: "DELETE",
+      headers: header,
+      body: JSON.stringify({
+        channel_id: channel.id,
+        user_id: user.id
+      })
+    })
+  }
 }
 
 export default ChannelAdapters;

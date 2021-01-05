@@ -12,7 +12,7 @@ export default class LandingPage extends Component{
   state = {
     currentUser: null,
     channelRoute: null,
-    displayContextMenu: true,
+    displayContextMenu: false,
     channelEvent: {},
     selectedChannel: {}
   }
@@ -56,21 +56,43 @@ export default class LandingPage extends Component{
   }
 
   deleteChannel = (channel) => {
-    console.log(channel)
+    ChannelAdapters.deleteChannel(channel)
+  }
+
+  leaveChannel = (channel) => {
+    const currentUser = this.state.currentUser;
+    ChannelAdapters.leaveChannel(channel, currentUser)
   }
 
   positionContextMenu = (channelEvent = this.state.channelEvent) => {
     const contextMenu = document.querySelector("#contextMenu");
     contextMenu.style.display = "block";
-    contextMenu.style.left = channelEvent.pageX + "px";
-    contextMenu.style.top = channelEvent.pageY + "px";
+    contextMenu.style.left = channelEvent.clientX + "px";
+    contextMenu.style.top = channelEvent.clientY + "px";
   }
 
 
   render(){
     const currentUser = this.state.currentUser;
+    const selectedChannel = this.state.selectedChannel;
     const displayContextMenu = this.state.displayContextMenu;
-
+    let contextInfo = {
+      text: "Delete",
+      icon: <i  name="delete" className="fa fa-trash-o "></i>,
+      name: "delete",
+      method: this.deleteChannel
+    }
+    if (selectedChannel.channel_owner) {
+      contextInfo = selectedChannel.channel_owner.id === currentUser.id ?
+       contextInfo
+       :
+       {
+         text: "Leave",
+         icon: <i name="leave" className="fas fa-sign-out-alt"></i>,
+         name: "leave",
+         method: this.leaveChannel
+       }
+    }
     return(
       <>
       <div className="w3-main w3-content w3-padding" style={{maxWidth: "1200px",marginTop: "100px" }}>
@@ -118,6 +140,7 @@ export default class LandingPage extends Component{
           selected={this.state.selectedChannel}
           deleteSelection={this.deleteChannel}
           positionContextMenu={this.positionContextMenu}
+          contextInfo={contextInfo}
         /> : null}
       </>
     );

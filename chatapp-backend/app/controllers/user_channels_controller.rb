@@ -10,6 +10,8 @@ class UserChannelsController < ApplicationController
 
   def destroy
     #Leave Chat
+    user_channel = UserChannel.where(user_channel_params)
+    user_channel.destroy_all
   end
 
   private

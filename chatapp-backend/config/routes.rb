@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   # Custom route for current user
   get '/current-user', to: "users#get_current_user"
-
+  delete '/user_channels/leave', to: "user_channels#destroy"
   # Action Cable Socket
   mount ActionCable.server => '/cable'
 

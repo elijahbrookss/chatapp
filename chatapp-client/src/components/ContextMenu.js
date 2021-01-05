@@ -5,16 +5,23 @@ class ContextMenu extends React.Component {
     this.props.positionContextMenu();
   }
 
-  selected = this.props.selected
 
   handleMessage = (e) => {
     const element = e.target;
+    const contextInfo = this.props.contextInfo;
+    let method;
     switch(element.getAttribute("name")) {
       case "delete":
-        this.props.deleteSelection(this.selected);
+        method = contextInfo ? contextInfo.method : this.props.deleteSelection
+        method(this.props.selected);
+        break;
+      case "leave":
+        method = contextInfo.method;
+        method(this.props.selected);
         break;
       case "edit":
-        this.props.switchFormMode(true);
+        method = this.props.switchFormMode
+        method(true);
         break;
       case "react":
         console.log("React to")
@@ -26,6 +33,7 @@ class ContextMenu extends React.Component {
 
 
   render(){
+    const contextInfo = this.props.contextInfo;
     let contextMenu;
     switch(this.props.mode){
       case "channel":
@@ -38,7 +46,7 @@ class ContextMenu extends React.Component {
         break;
       case "profile":
         contextMenu = <div className="context-menu active" id="contextMenu" onClick={this.handleMessage} >
-          <div name="delete" className="item delete"><i  name="delete" className="fa fa-trash-o "></i> Delete</div>
+          <div name={contextInfo.name} className={"item " + contextInfo.name}> {contextInfo.icon} {contextInfo.text}</div>
         </div>
         break;
       default:
