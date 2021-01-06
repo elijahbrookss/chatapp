@@ -19,7 +19,8 @@ class Channel extends React.Component {
     },
     messageEvent: {},
     editMode: false,
-    channel: {}
+    channel: {},
+    permissionLevel: null  //admin: react, edit, delete. constricted: react
   }
 
   channelId = this.props.match.params.id;
@@ -117,16 +118,17 @@ class Channel extends React.Component {
   changeDisplayContextMenu = (e, message) => {
     const contextMenu = document.querySelector("#contextMenu");
     e.preventDefault();
-    if (this.isPermitted(message)){
-        this.setState({
-          messageClicked: message,
-          messageEvent: e
-        })
-        if(contextMenu){
-          this.positionContextMenu(e);
-        }else{
-          this.displayContextMenu();
-        }
+
+    this.setPermissionLevel(message);
+
+    this.setState({
+      messageClicked: message,
+      messageEvent: e
+    });
+    if(contextMenu){
+      this.positionContextMenu(e);
+    }else{
+      this.displayContextMenu();
     }
   }
 
@@ -138,14 +140,17 @@ class Channel extends React.Component {
     this.setState({displayContextMenu: false});
   }
 
-  isPermitted = (message = {}) => {
+  setPermissionLevel = (message = {}) => {
     const channelOwner = this.channelOwner;
     const currentUser = this.user;
     const messageUser = message.user;
+    const permissionLevel = this.state.permissionLevel;
+
     if (messageUser.id === currentUser.id || currentUser.id === channelOwner.id){
-      return true
+      this.setState({permissionLevel: "admin"})
+    }else{
+      this.setState({permissionLevel: "restricted"})
     }
-    return false
   }
 
   isOwner = () => {
@@ -158,6 +163,10 @@ class Channel extends React.Component {
     contextMenu.style.left = messageEvent.clientX + "px";
     contextMenu.style.top = messageEvent.clientY + "px";
 
+  }
+
+  reactToMessage = message => {
+    console.log(message);
   }
 
   render() {
@@ -202,6 +211,10 @@ class Channel extends React.Component {
           deleteSelection={this.deleteMessage}
           selected={this.state.messageClicked}
           positionContextMenu={this.positionContextMenu}
+          contextInfo = {{
+            reactMethod: this.reactToMessage,
+            permissionLevel: this.state.permissionLevel
+          }}
         /> : null}
       </>
     )

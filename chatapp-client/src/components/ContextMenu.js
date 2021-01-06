@@ -24,7 +24,8 @@ class ContextMenu extends React.Component {
         method(true);
         break;
       case "react":
-        console.log("React to")
+        method = contextInfo.reactMethod;
+        method(this.props.selected);
         break;
       default:
         return null;
@@ -34,15 +35,24 @@ class ContextMenu extends React.Component {
 
   render(){
     const contextInfo = this.props.contextInfo;
+    const permissionLevel = contextInfo.permissionLevel;
     let contextMenu;
+
     switch(this.props.mode){
       case "channel":
-        contextMenu = <div className="context-menu active" id="contextMenu" onClick={this.handleMessage} >
-          <div name="edit" className="item edit"><i   name="edit" className="fa fa-clone"></i> Edit</div>
-          <div name="delete" className="item delete"><i  name="delete" className="fa fa-trash-o "></i> Delete</div>
-          <hr/>
-          <div name="react" className="item react"><i name="react" className="fa fa-refresh "></i> React</div>
-        </div>
+        if (permissionLevel === "restricted"){
+          contextMenu = <div className="context-menu active" id="contextMenu" onClick={this.handleMessage} >
+            <div name="react" className="item react"><i name="react" className="fa fa-refresh "></i> React</div>
+          </div>
+        }else {
+          contextMenu = <div className="context-menu active" id="contextMenu" onClick={this.handleMessage} >
+            <div name="edit" className="item edit"><i   name="edit" className="fa fa-clone"></i> Edit</div>
+            <div name="delete" className="item delete"><i  name="delete" className="fa fa-trash-o "></i> Delete</div>
+            <hr/>
+            <div name="react" className="item react"><i name="react" className="fa fa-refresh "></i> React</div>
+          </div>
+        }
+
         break;
       case "profile":
         contextMenu = <div className="context-menu active" id="contextMenu" onClick={this.handleMessage} >
@@ -52,6 +62,9 @@ class ContextMenu extends React.Component {
       default:
         return null;
     }
+
+
+
     return contextMenu
   }
 }
