@@ -30,10 +30,8 @@ export default class LandingPage extends Component{
   }
 
   componentDidUpdate(_, prevState){
-    console.log(prevState)
     if(prevState.currentUser == {}){
       this.fetchUser();
-      console.log("Running Again")
     }
   }
 
@@ -68,11 +66,21 @@ export default class LandingPage extends Component{
 
   deleteChannel = (channel) => {
     ChannelAdapters.deleteChannel(channel)
+    .then(() => {
+      const currentUser = this.state.currentUser;
+      currentUser.owned_channels = currentUser.owned_channels.filter(oldChannel => oldChannel.id !== channel.id);
+      this.setState({currentUser});
+    })
   }
 
   leaveChannel = (channel) => {
     const currentUser = this.state.currentUser;
     ChannelAdapters.leaveChannel(channel, currentUser)
+    .then(() => {
+      const currentUser = this.state.currentUser;
+      currentUser.channels = currentUser.channels.filter(oldChannel => oldChannel.id !== channel.id);
+      this.setState({currentUser});
+    })
   }
 
   positionContextMenu = (channelEvent = this.state.channelEvent) => {
