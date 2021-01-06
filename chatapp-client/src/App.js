@@ -2,6 +2,8 @@ import LoginSignup from './containers/LoginSignup';
 import Channel from './containers/Channel';
 import LandingPage from './containers/Landing';
 import User from './containers/User';
+import NavBar from './containers/NavBar';
+import PrivateComponent from './containers/PrivateComponent';
 
 import {
   BrowserRouter as Router,
@@ -13,13 +15,13 @@ import {
 function App() {
   return (
     <div className="App">
+      <NavBar />
       <Router>
         <Switch>
-          <Route exact path="/login" component={LoginSignup}/>
-          <Route exact path="/channels/:id" component={Channel} />
-          <Route exact path="/profile" component={User} />
+          <Route exact path="/login" component={LoginSignup} />
+          <PrivateComponent exact path="/channels/:id" component={Channel} />
+          <PrivateComponent exact path="/profile" component={User} />
           <Route exact path="/" component={LandingPage} />
-
         </Switch>
       </Router>
     </div>

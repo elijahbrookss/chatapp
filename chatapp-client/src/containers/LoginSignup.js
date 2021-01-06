@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import '../component-stylesheets/Login.css'
-import Login from '../components/Login'
-import Signup from '../components/Signup'
-import { Button } from 'semantic-ui-react'
+import ChannelAdapters from '../adapters/ChannelAdapters';
+import '../component-stylesheets/Login.css';
+import Login from '../components/Login';
+import Signup from '../components/Signup';
+import { Button } from 'semantic-ui-react';
+import { Redirect } from 'react-router-dom';
 
 export default class LoginSignup extends Component {
 
   state = {
-    login: true
+    login: true,
+    redirect: false,
   }
 
   triggerChange = () =>this.setState({login:!this.state.login})
@@ -27,6 +30,7 @@ export default class LoginSignup extends Component {
     .then( res => res.json() )
     .then( data => {
       localStorage.setItem('auth_key', data['jwt'])
+      this.processInput();
     })
   }
 
@@ -46,18 +50,34 @@ export default class LoginSignup extends Component {
       })
     })
     .then( res => res.json() )
-    .then( data => localStorage.setItem('auth_key', data['jwt']))
+    .then( data => {
+      localStorage.setItem('auth_key', data['jwt'])
+      this.processInput();
+    })
+  }
+
+  processInput = () => {
+    // Process if information is correct, if it isn't give an error
+    console.log(ChannelAdapters.isLoggedIn())
+    if(ChannelAdapters.isLoggedIn()){
+      this.setState({
+        redirect: true
+      })
+    }
   }
 
   render(){
     const loginState = this.state.login;
+    const redirect = this.state.redirect;
     const buttonText = loginState ?
     "Sign up"
     :
-    "Got an account? Click here"
+    "Login"
 
     return(
       <div className="holder">
+      {redirect ? <Redirect to="/profile"/> : null}
+
         <nav className="w3-sidebar w3-hide-medium w3-hide-small sidebar">
           <div className="bgimg"></div>
         </nav>

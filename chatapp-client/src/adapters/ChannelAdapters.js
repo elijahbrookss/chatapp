@@ -7,14 +7,22 @@ const usersRoute = localHost+"/users";
 const userChannelRoute = localHost+'/user_channels';
 
 const headerKey = "Authorization";
-const authToken = localStorage.getItem("auth_key");
 
 const header = {
   "Content-Type": "application/json",
-  [headerKey]: authToken
+  [headerKey]: localStorage.getItem("auth_key")
 }
 
 class ChannelAdapters {
+
+  static logoutCurrentUser() {
+    localStorage.clear();
+  }
+
+  static isLoggedIn(){
+    const authToken = localStorage.getItem("auth_key");
+    return authToken==="undefined" ? false : authToken;
+  }
 
   static fetchUser(){
     return fetch(currentUserRoute, {

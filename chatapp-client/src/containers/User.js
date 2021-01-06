@@ -10,7 +10,7 @@ import {
 export default class LandingPage extends Component{
 
   state = {
-    currentUser: null,
+    currentUser: {},
     channelRoute: null,
     displayContextMenu: false,
     channelEvent: {},
@@ -18,12 +18,23 @@ export default class LandingPage extends Component{
   }
 
   componentDidMount(){
+    this.fetchUser();
+    document.onclick = this.hideContextMenu;
+    document.onscroll = this.hideContextMenu;
+  }
+
+  fetchUser = () => {
     ChannelAdapters.fetchUser()
     .then(response => response.json())
-    .then(currentUser => {
-      this.setState({currentUser})
-    })
-    document.onclick = this.hideContextMenu;
+    .then(currentUser => this.setState({currentUser}))
+  }
+
+  componentDidUpdate(_, prevState){
+    console.log(prevState)
+    if(prevState.currentUser == {}){
+      this.fetchUser();
+      console.log("Running Again")
+    }
   }
 
   newChannel = () => {
@@ -95,13 +106,13 @@ export default class LandingPage extends Component{
     }
     return(
       <>
-      <div className="w3-main w3-content w3-padding" style={{maxWidth: "1200px",marginTop: "100px" }}>
+      <div className="w3-main w3-content w3-padding user-main">
         {this.state.channelRoute ? <Redirect push to={"/channels/"+this.state.channelRoute.id} /> : null }
         <button onClick={this.newChannel} className="new-channel"> <i className="fa fa-plus" aria-hidden="true"></i> New Channel </button>
         <div className="w3-row-padding w3-padding-16 w3-center channel-holder">
             <h1> Channels </h1>
             {
-              currentUser ?
+              currentUser.username ?
               currentUser.channels.map(channel => {
                 return <ChannelIcon
                   key={channel.id}
@@ -119,7 +130,7 @@ export default class LandingPage extends Component{
         <div className="w3-row-padding w3-padding-16 w3-center channel-holder">
             <h1> Owned Channels </h1>
             {
-              currentUser ?
+              currentUser.username ?
               currentUser.owned_channels.map(channel => {
                 return <ChannelIcon
                   key={channel.id}

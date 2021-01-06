@@ -31,6 +31,7 @@ class Channel extends React.Component {
     this.fetchUser();
     this.createSubscription();
     document.onclick = this.hideContextMenu;
+    document.onscroll = this.hideContextMenu;
   }
 
 
@@ -154,8 +155,8 @@ class Channel extends React.Component {
   positionContextMenu = (messageEvent = this.state.messageEvent) => {
     const contextMenu = document.querySelector("#contextMenu");
     contextMenu.style.display = "block";
-    contextMenu.style.left = messageEvent.pageX + "px";
-    contextMenu.style.top = messageEvent.pageY + "px";
+    contextMenu.style.left = messageEvent.clientX + "px";
+    contextMenu.style.top = messageEvent.clientY + "px";
 
   }
 
