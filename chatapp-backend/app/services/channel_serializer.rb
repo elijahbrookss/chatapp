@@ -8,7 +8,7 @@ class ChannelSerializer
     options = {
       include: {
         channel_owner: { except: [:created_at, :updated_at] },
-        messages: { except: [:updated_at], include: :user },
+        messages: { except: [:updated_at], include: [:user, :reactions]  },
         users: {except: [:created_at, :updated_at]}
       },
       except: [:created_at, :updated_at]

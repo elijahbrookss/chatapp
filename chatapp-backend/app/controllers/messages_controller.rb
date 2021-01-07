@@ -7,7 +7,6 @@ class MessagesController < ApplicationController
 
   def create
     message = Message.new(message_params)
-    channel = message.channel;
     if message.save
       broadcast_changes(message)
     end

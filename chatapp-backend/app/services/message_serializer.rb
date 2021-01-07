@@ -1,6 +1,6 @@
-class MessageSerializer 
+class MessageSerializer
 
-  def initialize(message_obj) 
+  def initialize(message_obj)
     @message = message_obj
   end
 
@@ -8,7 +8,8 @@ class MessageSerializer
     options = {
       include: {
         user: { except: [:created_at, :updated_at] },
-        channel: { except: [:created_at, :updated_at] }
+        channel: { except: [:created_at, :updated_at] },
+        reactions: {except: [:created_at, :updated_at]}
       },
       except: :updated_at
     }
