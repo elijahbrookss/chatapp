@@ -7,6 +7,7 @@ const MessageContainer = (props) =>{
     <div className="chatbox__messages" ng-repeat="message in messages">
         { props.messages.map(message => <Message
             key={message.id}
+            deleteReaction = {props.deleteReaction}
             user={props.user}
             message={message}
             changeDisplayContextMenu={props.changeDisplayContextMenu}

@@ -58,7 +58,7 @@ class UserList extends React.Component {
     this.state.allUsers.forEach(user=> {
       if (!this.isUserAdded(user)){
         userList.push(
-          <div className="item">
+          <div key={user.id} className="item">
             <button onClick={()=>this.addUserToChannel(user)}>
               <i className="fa fa-user-o"></i> {user.username}
             </button>
@@ -69,10 +69,15 @@ class UserList extends React.Component {
 
     return(
       <>
-      <button id="inviteButton" onClick={this.changeUserList} >
-        <i className="fa fa-plus" aria-hidden="true"></i>
-        Invite Users
-      </button>
+      <div className="methods">
+        <button className="methodButton" onClick={this.changeUserList} >
+          <i className="fa fa-plus" aria-hidden="true"></i>
+        </button>
+        <button onClick={this.props.startVideoChat} className="methodButton" id="video" >
+          <i className="fas fa-video" aria-hidden="true"></i>
+        </button>
+      </div>
+
       {this.state.displayUserList ?
         <div id="userListMenu">{userList}</div>:
         null

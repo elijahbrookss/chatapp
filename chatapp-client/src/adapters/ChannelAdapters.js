@@ -5,6 +5,7 @@ const messagesRoute = localHost+"/messages";
 const channelsRoute = localHost+"/channels";
 const usersRoute = localHost+"/users";
 const userChannelRoute = localHost+'/user_channels';
+const reactionsRoute = localHost+'/reactions'
 
 const headerKey = "Authorization";
 
@@ -116,6 +117,25 @@ class ChannelAdapters {
         channel_id: channel.id,
         user_id: user.id
       })
+    })
+  }
+
+  static createReaction(message, emoji, currentUser){
+    return fetch(reactionsRoute, {
+      method: "POST",
+      headers: header,
+      body: JSON.stringify({
+        emoji,
+        message_id: message.id,
+        user_id: currentUser.id
+      })
+    })
+  }
+
+  static deleteReaction(reaction){
+    return fetch(reactionsRoute+`/${reaction.id}`, {
+      method: "DELETE",
+      headers: header
     })
   }
 }

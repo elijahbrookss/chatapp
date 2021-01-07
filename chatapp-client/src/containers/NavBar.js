@@ -10,7 +10,6 @@ class NavBar extends React.Component {
 
   grabCurrentPage() {
     const path = document.location.pathname;
-    const currentUser = this.state.currentUser;
 
     switch(path){
       case "/":
@@ -45,14 +44,15 @@ class NavBar extends React.Component {
       <nav className="navbar navbar-inverse">
         <div className="container-fluid">
           <div className="navbar-header">
-            <a className="navbar-center navbar-brand">{this.state.currentPage}</a>
-            <a className="navbar-brand" href="/" >Blabber</a>
+            <p className="navbar-center navbar-brand">{this.state.currentPage}</p>
           </div>
           <ul className="nav navbar-nav navbar-right">
             <li><a href="/profile"><span className="glyphicon glyphicon-user"></span> {currentUser.username ? currentUser.username : "Log In"} </a></li>
             <li><a onClick={currentUser.username ? this.logout : null} href="/login"><span className="glyphicon glyphicon-log-in"></span> {currentUser.username ? "Log Out" : "Sign Up"} </a></li>
           </ul>
           <ul className="nav navbar-nav">
+            <li><a href="/" >Home</a></li>
+
           </ul>
         </div>
 

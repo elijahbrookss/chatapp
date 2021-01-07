@@ -30,7 +30,7 @@ export default class LandingPage extends Component{
   }
 
   componentDidUpdate(_, prevState){
-    if(prevState.currentUser == {}){
+    if(prevState.currentUser === {}){
       this.fetchUser();
     }
   }

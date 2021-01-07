@@ -42,14 +42,14 @@ class ContextMenu extends React.Component {
       case "channel":
         if (permissionLevel === "restricted"){
           contextMenu = <div className="context-menu active" id="contextMenu" onClick={this.handleMessage} >
-            <div name="react" className="item react"><i name="react" className="fa fa-refresh "></i> React</div>
+            <div name="react" className="item react"><i name="react" className="fa fa-refresh "></i> Reactions </div>
           </div>
         }else {
           contextMenu = <div className="context-menu active" id="contextMenu" onClick={this.handleMessage} >
             <div name="edit" className="item edit"><i   name="edit" className="fa fa-clone"></i> Edit</div>
             <div name="delete" className="item delete"><i  name="delete" className="fa fa-trash-o "></i> Delete</div>
             <hr/>
-            <div name="react" className="item react"><i name="react" className="fa fa-refresh "></i> React</div>
+            <div name="react" className="item react"><i name="react" className="fa fa-refresh "></i> Reactions</div>
           </div>
         }
 

@@ -8,7 +8,7 @@ import Header from '../components/Header';
 import ActionCable, { ActionCable as ac} from 'actioncable';
 import ChannelAdapters from '../adapters/ChannelAdapters';
 
-const cable = ActionCable.createConsumer('ws://localhost:3001/cable')
+const cable = ActionCable.createConsumer('ws://localhost:3001/cable');
 
 class Channel extends React.Component {
   state = {
@@ -17,15 +17,20 @@ class Channel extends React.Component {
     messageClicked: {
       content: undefined
     },
+    showVideo: false,
     messageEvent: {},
     editMode: false,
     channel: {},
+    store: null,
     permissionLevel: null  //admin: react, edit, delete. constricted: react
   }
+
 
   channelId = this.props.match.params.id;
   user = {};
   channelOwner = {};
+  roomName = 'videochat-';
+  configURL = `https://api.simplewebrtc.com/config/guest/${API_KEY}`
 
   componentDidMount(){
     this.fetchChannel(this.channelId);
@@ -54,10 +59,11 @@ class Channel extends React.Component {
     .then(resp => resp.json())
     .then(channelObj => {
       this.channelOwner = channelObj.channel_owner;
+      this.roomName = this.roomName + channelObj.id;
       const messages = channelObj.messages.sort((a,b) =>  new Date(a.created_at) - new Date(b.created_at));
       this.setState({
         channel: channelObj,
-        messages,
+        messages
       })
     })
   }
@@ -144,7 +150,6 @@ class Channel extends React.Component {
     const channelOwner = this.channelOwner;
     const currentUser = this.user;
     const messageUser = message.user;
-    const permissionLevel = this.state.permissionLevel;
 
     if (messageUser.id === currentUser.id || currentUser.id === channelOwner.id){
       this.setState({permissionLevel: "admin"})
@@ -166,7 +171,19 @@ class Channel extends React.Component {
   }
 
   reactToMessage = message => {
-    console.log(message);
+    ChannelAdapters.createReaction(message, "💖", this.user)
+  }
+
+  deleteReaction = reaction => {
+    const messages = this.state.messages;
+    const currentUser = this.user;
+    if (reaction.user_id === currentUser.id){
+      ChannelAdapters.deleteReaction(reaction)
+    }
+  }
+
+  startVideoChat = () => {
+    console.log("Not in progress...");
   }
 
   render() {
@@ -192,9 +209,11 @@ class Channel extends React.Component {
           <UserList
             channelId={this.channelId}
             channel={this.state.channel}
+            startVideoChat={this.startVideoChat}
           />
           <MessageContainer
             user={this.user}
+            deleteReaction={this.deleteReaction}
             messages={this.state.messages}
             changeDisplayContextMenu={this.changeDisplayContextMenu}
           />
@@ -208,10 +227,10 @@ class Channel extends React.Component {
       {displayContextMenu ? <ContextMenu
           mode="channel"
           switchFormMode={this.switchFormMode}
-          deleteSelection={this.deleteMessage}
           selected={this.state.messageClicked}
           positionContextMenu={this.positionContextMenu}
           contextInfo = {{
+            method: this.deleteMessage,
             reactMethod: this.reactToMessage,
             permissionLevel: this.state.permissionLevel
           }}

@@ -11,20 +11,23 @@ body {
   background: rgba(0, 0, 0, .6);
 }
 
-#inviteButton {
+.methods{
+  position: absolute;
+  margin-left: 500px;
+}
+
+.methodButton {
   background: rgba(255, 255, 255, 0);
   color: rgba(255, 255, 255, 1);
   border-style: none;
-  padding: 1em;
-}
-
-#inviteButton i {
-  padding: .5em;
+  padding: .9em;
+  font-size: 1.2em;
 }
 
 #userListMenu{
   position:absolute;
-  left: 10.6em;
+  right: 4em;
+  top: 3.5em;
   z-index:10000;
   width:150px;
   background: rgba(27,26,26, 0.9);
@@ -88,6 +91,7 @@ body {
   }
 }
 
+
 .chatbox {
   background: rgba(255, 255, 255, 0.05);
   width: 600px;
@@ -97,6 +101,20 @@ body {
   box-shadow: 1px 1px 12px rgba(0, 0, 0, 0.1);
   &__messages__user-message {
     width: 600px;
+    .reactions-holder{
+      position: relative;
+      bottom: 25px;
+      left: 20px;
+      height: 0px;
+      span{
+        margin-right: 1px;
+        background-color: rgba(0, 0, 0, .6);
+        border-radius: 1em;
+        padding-left: 7px;
+        padding-right: 7px;
+        font-weight: 700;
+      }
+    }
   }
   &__messages__user-message--ind-message {
 
@@ -117,8 +135,9 @@ body {
       margin: 0 1.3em;
     }
     span {
-      font-size: 0.6em;
-      color: #778899;
+      font-size: 0.56em;
+      font-weight: 900;
+      color: rgba(0, 0, 0, .8)
     }
   }
   &__user-list {
@@ -198,6 +217,7 @@ body {
   height: 90%;
   width: 75%;
   right: 0;
+  margin-top: 50px;
   position: absolute;
   overflow-x: hidden;
   overflow-y: scroll;
