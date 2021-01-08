@@ -1,4 +1,4 @@
-import API_ROOT from '../apiRoot'
+import { API_ROOT } from '../apiRoot'
 
 // const localHost = "http://localhost:3001";
 const channelRoute = API_ROOT+"/channels";
