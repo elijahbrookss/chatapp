@@ -1,5 +1,30 @@
 .login-form{
-  margin-left: 60%;
+  margin-left: 50%;
+  text-align: center;
+  padding: 2em;
+}
+
+.form{
+  margin-right: 0;
+  padding-right: 0;
+  padding: 1em;
+}
+
+.form input{
+  padding: 1em;
+  border-radius: .5em;
+  border-style: solid;
+  height: 2em;
+  width: 25em;
+}
+
+.form label{
+  margin-top: .6em;
+  font-size: 1.2em;
+  color: rgb(255, 255, 255);
+}
+.holder{
+  height: 1000px;
 }
 
 .w3-row-padding img {margin-bottom: 12px}
@@ -7,27 +32,53 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url('../assets/mountains.jpg');
+  background-image: url('../assets/particles.gif');
   min-height: 100%;
 }
 
 .button{
+  padding: .2em;
+  border-radius: 1em;
   margin-top: 15px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.main{
-  margin-left: 40%;
+.switch{
+  padding-left: 1em;
+  padding-right: 1em;
+  font-weight: 600;
 }
+
+.switch:hover{
+  background-color: #999;
+}
+
 
 .header{
   padding: 70px;
 }
 
+.main{
+  margin-left: 50%;
+}
+
 .sidebar{
-  width: 40%;
+  width: 50%;
+  z-index: -1;
 }
 
 .name{
+  text-align: center;
   color: rgba(255, 255, 255, 1);
+}
+
+.inputButton{
+  width: 25em;
+  margin-top: 2em;
+  font-weight: 600;
+
+}
+
+.inputButton:hover{
+  background-color: #999;
 }

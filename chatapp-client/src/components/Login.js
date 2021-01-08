@@ -8,14 +8,14 @@ const Login = (props) => {
 
   return(
     <>
-    <h1 className="name"> Welcome Back, Login </h1>
-      <Form onSubmit={e => props.login(e, username, password)}>
-        <Form.Group>
-          <Form.Input onChange={e => setUsername(e.target.value)} fluid label='Username' placeholder='Username' />
-          <Form.Input onChange={e => setPassword(e.target.value)} fluid label='Password' placeholder='Password' type="password" />
-          <Button type="submit">Login</Button>
-        </Form.Group>
-      </Form>
+    <h1 className="name"> Login </h1>
+    <Form className="form" onSubmit={e => props.login(e, username, password)}>
+      <Form.Group >
+        <Form.Input onChange={e => setUsername(e.target.value)} fluid label="Username" placeholder='Enter your username' />
+        <Form.Input onChange={e => setPassword(e.target.value)} fluid label="Password" placeholder='Enter your Password' type="password" />
+        <Button className="inputButton" type="submit">Login</Button>
+      </Form.Group>
+    </Form>
     </>
   )
 }

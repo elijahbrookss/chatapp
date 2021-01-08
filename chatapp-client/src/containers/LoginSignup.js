@@ -89,7 +89,7 @@ export default class LoginSignup extends Component {
         <div className="login-form">
           {loginState ? <Login login={this.login} /> : <Signup signUp={this.signUp}/>}
           <div></div>
-          <Button className="button" onClick={this.triggerChange}>{buttonText}</Button>
+          <Button className=" switch button" onClick={this.triggerChange}>{buttonText}</Button>
         </div>
       </div>
     );

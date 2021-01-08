@@ -29,8 +29,6 @@ class Channel extends React.Component {
   channelId = this.props.match.params.id;
   user = {};
   channelOwner = {};
-  roomName = 'videochat-';
-  configURL = `https://api.simplewebrtc.com/config/guest/${API_KEY}`
 
   componentDidMount(){
     this.fetchChannel(this.channelId);
@@ -59,7 +57,6 @@ class Channel extends React.Component {
     .then(resp => resp.json())
     .then(channelObj => {
       this.channelOwner = channelObj.channel_owner;
-      this.roomName = this.roomName + channelObj.id;
       const messages = channelObj.messages.sort((a,b) =>  new Date(a.created_at) - new Date(b.created_at));
       this.setState({
         channel: channelObj,
@@ -170,12 +167,11 @@ class Channel extends React.Component {
 
   }
 
-  reactToMessage = message => {
-    ChannelAdapters.createReaction(message, "💖", this.user)
+  reactToMessage = (message, emoji) => {
+    ChannelAdapters.createReaction(message, emoji, this.user)
   }
 
   deleteReaction = reaction => {
-    const messages = this.state.messages;
     const currentUser = this.user;
     if (reaction.user_id === currentUser.id){
       ChannelAdapters.deleteReaction(reaction)

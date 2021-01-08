@@ -32,6 +32,13 @@ class ContextMenu extends React.Component {
     }
   }
 
+  reactionSelection = (e) => {
+    const element = e.target;
+    const contextInfo = this.props.contextInfo;
+    contextInfo.reactMethod(this.props.selected, element.textContent);
+  }
+
+
 
   render(){
     const contextInfo = this.props.contextInfo;
@@ -42,14 +49,25 @@ class ContextMenu extends React.Component {
       case "channel":
         if (permissionLevel === "restricted"){
           contextMenu = <div className="context-menu active" id="contextMenu" onClick={this.handleMessage} >
-            <div name="react" className="item react"><i name="react" className="fa fa-refresh "></i> Reactions </div>
+            <div name="react" className="react">
+              <button onClick={this.reactionSelection} name="love" className="emoji">💖</button>
+              <button onClick={this.reactionSelection} name="like" className="emoji">👍</button>
+              <button onClick={this.reactionSelection} name="laugh" className="emoji">😂</button>
+              <button onClick={this.reactionSelection} name="cry" className="emoji">😥</button>
+            </div>
+
           </div>
         }else {
           contextMenu = <div className="context-menu active" id="contextMenu" onClick={this.handleMessage} >
             <div name="edit" className="item edit"><i   name="edit" className="fa fa-clone"></i> Edit</div>
             <div name="delete" className="item delete"><i  name="delete" className="fa fa-trash-o "></i> Delete</div>
             <hr/>
-            <div name="react" className="item react"><i name="react" className="fa fa-refresh "></i> Reactions</div>
+            <div name="react" className="react">
+              <button onClick={this.reactionSelection} name="love" className="emoji">💖</button>
+              <button onClick={this.reactionSelection} name="like" className="emoji">👍</button>
+              <button onClick={this.reactionSelection} name="laugh" className="emoji">😂</button>
+              <button onClick={this.reactionSelection} name="cry" className="emoji">😥</button>
+            </div>
           </div>
         }
 

@@ -8,13 +8,27 @@ $away: rgba(255, 253, 130, 0.8);
 }
 
 body {
-  background: rgba(0, 0, 0, .6);
+  background: rgba(0, 0, 0, .4);
 }
 
 .methods{
   position: absolute;
   margin-left: 500px;
 }
+
+.emoji{
+  font-size: 1.2em;
+  padding: .3em;
+  border-style: none;
+  border-radius: 10em;
+  margin-left: .2em;
+  background-color: rgb(0, 0, 0);
+}
+
+.emoji:hover{
+  background:#555;
+}
+
 
 .methodButton {
   background: rgba(255, 255, 255, 0);
@@ -51,10 +65,17 @@ body {
 #contextMenu {
   position:fixed;
   z-index:10000;
-  width:150px;
+  width:179px;
   background: rgba(27,26,26, 0.8);
   border-radius:5px;
 }
+
+#contextMenu .react{
+  padding:8px 10px;
+  font-size:15px;
+  color:#eee;
+}
+
 #contextMenu .item {
   padding:8px 10px;
   font-size:15px;
@@ -91,6 +112,14 @@ body {
   }
 }
 
+.chatbox__messages__user-message--ind-message:hover {
+  background:#555;
+}
+
+.chatbox:hover{
+  cursor: context-menu;
+}
+
 
 .chatbox {
   background: rgba(255, 255, 255, 0.05);
@@ -106,6 +135,12 @@ body {
       bottom: 25px;
       left: 20px;
       height: 0px;
+      span:hover{
+        background: rgba(100, 0, 0, .6);
+        // cursor: context-menu;
+        cursor: none;
+
+      }
       span{
         margin-right: 1px;
         background-color: rgba(0, 0, 0, .6);
@@ -117,7 +152,6 @@ body {
     }
   }
   &__messages__user-message--ind-message {
-
     background: rgba(255, 255, 255, 0.2);
     padding: 1em 0;
     height: 100%;
@@ -257,6 +291,7 @@ body {
 .channel-holder{
   color: rgb(255, 255, 255);
   padding-left: 10em;
+  cursor: context-menu;
 }
 
 .navbar{
@@ -276,6 +311,12 @@ body {
   background-size: contain;
   background-position: center;
   margin: 1em;
+}
+
+.channel-icon:hover{
+  background-color: rgba(25, 25, 25, .6);
+  cursor: none;
+  border-color: rgb(100,100,100);
 }
 
 .loader {
