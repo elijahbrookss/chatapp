@@ -7,7 +7,6 @@ class UserList extends React.Component {
   state = {
     displayUserList: false,
     allUsers: [],
-    channelUsers: []
   }
 
   channelId = this.props.channelId;
@@ -16,13 +15,6 @@ class UserList extends React.Component {
     ChannelAdapters.fetchAllUsers()
     .then(response => response.json())
     .then(allUsers => this.setState({allUsers}))
-
-    ChannelAdapters.fetchChannel(this.channelId)
-    .then(response => response.json())
-    .then(channelObj => {
-      const channelUsers = [...channelObj.users, channelObj.channel_owner];
-      this.setState({channelUsers})
-    })
   }
 
   changeUserList = (e) => {
@@ -30,9 +22,9 @@ class UserList extends React.Component {
     this.setState({displayUserList: !displayUserList});
   }
 
-  isUserAdded = (user) => {
+  isUserAdded = (user, channelUsers) => {
     let userFound = false;
-    this.state.channelUsers.forEach(addedUser => {
+    channelUsers.forEach(addedUser => {
       if (user.id === addedUser.id){
         userFound = true;
       }
@@ -47,16 +39,17 @@ class UserList extends React.Component {
       this.setState({
         displayUserList: false,
         allUsers: this.state.allUsers.filter(auser=> auser.id !== user.id),
-        channelUsers: [...this.state.channelUsers, user]
       });
     })
   }
 
   render(){
     const userList = [];
+    const channelObj = this.props.channel;
+    const channelUsers = [...channelObj.users, channelObj.channel_owner];
 
     this.state.allUsers.forEach(user=> {
-      if (!this.isUserAdded(user)){
+      if (!this.isUserAdded(user, channelUsers)){
         userList.push(
           <div key={user.id} className="item">
             <button onClick={()=>this.addUserToChannel(user)}>
@@ -84,7 +77,7 @@ class UserList extends React.Component {
       }
       <div className='chatbox__user-list'>
         <h1>User list</h1>
-        {this.state.channelUsers.map(user=> <UserCard
+        {channelUsers.map(user=> <UserCard
           key={user.id}
           user={user}
           /> )
