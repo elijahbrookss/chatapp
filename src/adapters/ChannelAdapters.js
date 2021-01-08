@@ -1,13 +1,13 @@
 import { API_ROOT } from '../apiRoot'
 
 // const localHost = "http://localhost:3001";
-const channelRoute = API_ROOT+"/channels";
-const currentUserRoute = API_ROOT+"/current-user";
-const messagesRoute = API_ROOT+"/messages";
-const channelsRoute = API_ROOT+"/channels";
-const usersRoute = API_ROOT+"/users";
-const userChannelRoute = API_ROOT+'/user_channels';
-const reactionsRoute = API_ROOT+'/reactions'
+const channelRoute = API_ROOT+"channels";
+const currentUserRoute = API_ROOT+"current-user";
+const messagesRoute = API_ROOT+"messages";
+const channelsRoute = API_ROOT+"channels";
+const usersRoute = API_ROOT+"users";
+const userChannelRoute = API_ROOT+'user_channels';
+const reactionsRoute = API_ROOT+'reactions'
 
 const headerKey = "Authorization";
 
