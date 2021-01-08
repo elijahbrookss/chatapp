@@ -207,12 +207,6 @@ class Channel extends React.Component {
           channel_id: this.channelId,
        }}
       />
-      <ac
-        channel={{
-          channel: 'ChannelsChannel',
-          channel_id: this.channelId,
-       }}
-      />
 
       <div className='w3-animate-opacity container' ng-cloak="true" ng-app="chatApp">
 

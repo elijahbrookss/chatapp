@@ -2,6 +2,8 @@ import {Form} from 'semantic-ui-react'
 import React from 'react'
 import ChannelAdapters from '../adapters/ChannelAdapters';
 
+const cable = ActionCable.createConsumer('wss://blabber-chatapp.herokuapp.com/cable');
+
 class Header extends React.Component {
 
   state = {
@@ -16,7 +18,16 @@ class Header extends React.Component {
   }
 
   componentDidMount(){
-    this.setState({chatName: this.props.channel.name});
+      cable.subscriptions.create(
+        { channel: 'ChannelsChannel',
+          channel_id: this.channelId
+       },
+       {received: channel => this.renderChangesToChannel(channel)}
+      )
+  }
+
+  renderChangesToChannel = (channel) => {
+    this.setState({chatName: channel.name})
   }
 
   changeFormState = (e) => {
@@ -41,6 +52,14 @@ class Header extends React.Component {
 
   render () {
     return(
+      <>
+      <ac
+        channel={{
+          channel: 'ChannelsChannel',
+          channel_id: this.channelId,
+       }}
+      />
+
       <div onClick={this.changeFormState} className = "chatText">
           { this.state.formState ?
               <Form onSubmit={this.updateChatName}>
@@ -52,6 +71,7 @@ class Header extends React.Component {
               <h1>{this.state.chatName}</h1>
           }
       </div>
+      </>
     )
   }
   }
