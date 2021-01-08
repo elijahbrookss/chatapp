@@ -9,10 +9,14 @@ class Header extends React.Component {
     chatName: "",
   }
 
-  componentDidUpdate(a, b){
+  componentDidUpdate(){
     if(this.state.chatName === "" && this.props.channel.name){
       this.setState({chatName: this.props.channel.name})
     }
+  }
+
+  componentDidMount(){
+    this.setState({chatName: this.props.channel.name});
   }
 
   changeFormState = (e) => {
