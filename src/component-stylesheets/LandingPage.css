@@ -1,7 +1,8 @@
-body, html {height: 100%}
-.bgimg {
+.bg {
   background-position: center;
   background-size: cover;
+  position: fixed;
+  background-image: url('../assets/particles.gif');
 }
 
 .mid-section{

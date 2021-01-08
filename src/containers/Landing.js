@@ -6,7 +6,7 @@ export default class LandingPage extends Component{
 
   render(){
     return(
-      <div class="bgimg w3-display-container w3-animate-opacity w3-text-white">
+      <div class="bg w3-display-container w3-animate-opacity w3-text-white">
 
         <div class="w3-display-middle mid-section">
           <h1 class="w3-jumbo w3-animate-top">Blabber</h1>
