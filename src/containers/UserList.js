@@ -46,6 +46,7 @@ class UserList extends React.Component {
   render(){
     const userList = [];
     const channelObj = this.props.channel;
+    const channelUsers = [];
     if(channelObj){
       const channelUsers = [...channelObj.users, channelObj.channel_owner];
     }
