@@ -9,7 +9,7 @@ import ActionCable, { ActionCable as ac} from 'actioncable';
 import ChannelAdapters from '../adapters/ChannelAdapters';
 import API_ROOT from '../apiRoot'
 
-const cable = ActionCable.createConsumer('ws://blabber-chatapp.herokuapp.com/cable');
+const cable = ActionCable.createConsumer('wss://blabber-chatapp.herokuapp.com/cable');
 
 class Channel extends React.Component {
   state = {
