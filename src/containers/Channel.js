@@ -85,8 +85,19 @@ class Channel extends React.Component {
       { channel: 'MessagesChannel',
         channel_id: this.channelId,
      },
-      { received: messages => this.renderChangesInMessages(messages) }
+      {received: messages => this.renderChangesInMessages(messages)}
     )
+
+    cable.subscriptions.create(
+      { channel: 'ChannelsChannel',
+        channel_id: this.channelId
+     },
+     {received: channel => this.renderChangesToChannel(channel)}
+    )
+  }
+
+  renderChangesToChannel = (channel) => {
+    this.setState({channel})
   }
 
   renderChangesInMessages = (messages) => {
@@ -169,7 +180,9 @@ class Channel extends React.Component {
   }
 
   reactToMessage = (message, emoji) => {
-    ChannelAdapters.createReaction(message, emoji, this.user)
+    if (message.reactions.length < 10){
+      ChannelAdapters.createReaction(message, emoji, this.user);
+    }
   }
 
   deleteReaction = reaction => {
@@ -190,6 +203,12 @@ class Channel extends React.Component {
       <ac
         channel={{
           channel: 'MessagesChannel',
+          channel_id: this.channelId,
+       }}
+      />
+      <ac
+        channel={{
+          channel: 'ChannelsChannel',
           channel_id: this.channelId,
        }}
       />

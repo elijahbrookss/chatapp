@@ -4,7 +4,7 @@ import Reaction from './Reaction';
 const Message = (props) =>{
   const user = props.user;
   const messageUser = props.message.user
-  const color = user.username === messageUser.username ? {color: "yellow"} : null
+  const color = user.username === messageUser.username ? {color: "lightblue"} : null
   let date = new Date(props.message.created_at)
   date = date.getDate() === new Date().getDate() ? `Today at ${date.toLocaleTimeString()}` : date.toLocaleString();
   return(
