@@ -87,18 +87,6 @@ class Channel extends React.Component {
      },
       {received: messages => this.renderChangesInMessages(messages)}
     )
-
-    cable.subscriptions.create(
-      { channel: 'ChannelsChannel',
-        channel_id: this.channelId
-     },
-     {received: channel => this.renderChangesToChannel(channel)}
-    )
-  }
-
-  renderChangesToChannel = (channel) => {
-    this.setState({channel})
-    console.log(channel);
   }
 
   renderChangesInMessages = (messages) => {
