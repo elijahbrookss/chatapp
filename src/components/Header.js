@@ -1,6 +1,7 @@
 import {Form} from 'semantic-ui-react'
 import React from 'react'
 import ChannelAdapters from '../adapters/ChannelAdapters';
+import ActionCable, { ActionCable as ac} from 'actioncable';
 
 const cable = ActionCable.createConsumer('wss://blabber-chatapp.herokuapp.com/cable');
 
