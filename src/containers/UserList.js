@@ -46,8 +46,9 @@ class UserList extends React.Component {
   render(){
     const userList = [];
     const channelObj = this.props.channel;
-    const channelUsers = [...channelObj.users, channelObj.channel_owner];
-
+    if(channelObj){
+      const channelUsers = [...channelObj.users, channelObj.channel_owner];
+    }
     this.state.allUsers.forEach(user=> {
       if (!this.isUserAdded(user, channelUsers)){
         userList.push(
@@ -77,10 +78,15 @@ class UserList extends React.Component {
       }
       <div className='chatbox__user-list'>
         <h1>User list</h1>
-        {channelUsers.map(user=> <UserCard
+        {
+          channelUsers ?
+          channelUsers.map(user=> <UserCard
           key={user.id}
           user={user}
           /> )
+
+          :
+          null
         }
       </div>
       </>
