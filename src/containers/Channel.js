@@ -9,7 +9,7 @@ import ActionCable, { ActionCable as ac} from 'actioncable';
 import ChannelAdapters from '../adapters/ChannelAdapters';
 import API_ROOT from '../apiRoot'
 
-const cable = ActionCable.createConsumer('ws://localhost:3001/cable');
+const cable = ActionCable.createConsumer('ws:/{API_ROOT}/cable');
 
 class Channel extends React.Component {
   state = {
