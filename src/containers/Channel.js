@@ -98,6 +98,7 @@ class Channel extends React.Component {
 
   renderChangesToChannel = (channel) => {
     this.setState({channel})
+    console.log(channel);
   }
 
   renderChangesInMessages = (messages) => {
