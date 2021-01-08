@@ -5,6 +5,7 @@ import Login from '../components/Login';
 import Signup from '../components/Signup';
 import { Button } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom';
+import { API_ROOT } from '../apiRoot'
 
 export default class LoginSignup extends Component {
 
@@ -18,7 +19,7 @@ export default class LoginSignup extends Component {
 
   login = (e, username, password) => {
     e.preventDefault();
-    fetch(`http://localhost:3001/login`, {
+    fetch(`${API_ROOT}/login`, {
       method: "POST",
       headers: { "Content-Type":"application/json"},
       body: JSON.stringify({
@@ -42,7 +43,7 @@ export default class LoginSignup extends Component {
 
   signUp = (e, firstName, lastName, username, email, password) => {
     e.preventDefault()
-    fetch(`http://localhost:3001/users`, {
+    fetch(`${API_ROOT}/users`, {
       method: "POST",
       headers: { "Content-Type":"application/json" },
       body: JSON.stringify({
