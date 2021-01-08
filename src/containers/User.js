@@ -114,7 +114,7 @@ export default class LandingPage extends Component{
     }
     return(
       <>
-      <div className="w3-main w3-content w3-padding user-main">
+      <div className="w3-animate-opacity w3-main w3-content w3-padding user-main">
         {this.state.channelRoute ? <Redirect push to={"/channels/"+this.state.channelRoute.id} /> : null }
         <button onClick={this.newChannel} className="new-channel"> <i className="fa fa-plus" aria-hidden="true"></i> New Channel </button>
         <div className="w3-row-padding w3-padding-16 w3-center channel-holder">

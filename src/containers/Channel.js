@@ -194,7 +194,7 @@ class Channel extends React.Component {
        }}
       />
 
-      <div className='container' ng-cloak="true" ng-app="chatApp">
+      <div className='w3-animate-opacity container' ng-cloak="true" ng-app="chatApp">
 
         <Header
           isOwner={this.isOwner}

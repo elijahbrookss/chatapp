@@ -82,7 +82,7 @@ export default class LoginSignup extends Component {
     "Login"
 
     return(
-      <div className="holder">
+      <div className="w3-animate-opacity holder">
       {redirect ? <Redirect to="/profile"/> : null}
 
         <nav className="w3-sidebar w3-hide-medium w3-hide-small sidebar">
