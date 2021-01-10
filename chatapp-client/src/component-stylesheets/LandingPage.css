@@ -1,9 +1,15 @@
-body, html {height: 100%}
-.bgimg {
+
+.bg {
+  position: fixed;
+  height: 100%;
+  width: 100%;
   background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
+  background-image: url('../assets/spiral.gif');
 }
 
 .mid-section{
   position: fixed;
+
 }
